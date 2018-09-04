@@ -1,33 +1,38 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Zsolt Diveki @ GitHub Pages</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	</head>
-	<body>
-		<nav>
+{% extends "layout.html" %}
+
+{% block title %}
+    Zsolt Diveki @ GitHub Pages
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+		<div class="blurb">
+				<h1>Hi there, I'm Zsolt Diveki!</h1>
+		<p>I'm best known as a wanderer in life. <a href="/about">Read more about my life...</a></p>
+		</div><!-- /.blurb -->
+
+		<div class="blurb">
+				<h4>See my <a href="/projects/wine.html">first project</a> on wine analysis. </h4>
+		</div><!-- /.blurb -->
+</div><!-- /.container -->
+<footer>
+		<ul>
+				<li><a href="mailto:diveki@gmail.com">email</a></li>
+				<li><a href="https://github.com/diveki">github.com/diveki</a></li>
+	</ul>
+</footer>
+{% endblock %}
+
+
+
+
+
+		<!-- <nav>
     		<ul>
         		<li><a href="/">Home</a></li>
 	        	<li><a href="/about">About</a></li>
         		<li><a href="/cv">CV</a></li>
         		<li><a href="/projects">Projects</a></li>
     		</ul>
-		</nav>
-		<div class="container">
-    		<div class="blurb">
-        		<h1>Hi there, I'm Zsolt Diveki!</h1>
-				<p>I'm best known as a wanderer in life. <a href="/about">Read more about my life...</a></p>
-    		</div><!-- /.blurb -->
-
-				<div class="blurb">
-        		<h4>See my <a href="/projects/wine.html">first project</a> on wine analysis. </h4>
-    		</div><!-- /.blurb -->
-		</div><!-- /.container -->
-		<footer>
-    		<ul>
-        		<li><a href="mailto:diveki@gmail.com">email</a></li>
-        		<li><a href="https://github.com/diveki">github.com/diveki</a></li>
-			</ul>
-		</footer>
-	</body>
-</html>
+		</nav> -->
