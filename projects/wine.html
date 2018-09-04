@@ -13145,7 +13145,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="6.-Conclusion">6. Conclusion<a class="anchor-link" href="#6.-Conclusion">&#182;</a></h1><p>In this report we presented a simple Natural Language Processing approach based on word analysis to derive characteristic features of grape varieties from semi-professional wine descriptions.</p>
-<p>It was possible to show that although the descriptions were not well structured and contained a lot of irrelevant information with respect to the grape varieties we could extract grape characteristic nouns and adjectives. We showed that there are many common words used for each grape variety, but one can also find important words that belong to only one grape. These findings help to understand the background of the decisions made by a grape variety forecaster. Such kind of forecaster will be presented in the <a href="">next report</a>.</p>
+<p>It was possible to show that although the descriptions were not well structured and contained a lot of irrelevant information with respect to the grape varieties we could extract grape characteristic nouns and adjectives. We showed that there are many common words used for each grape variety, but one can also find important words that belong to only one grape. These findings help to understand the background of the decisions made by a grape variety forecaster. Such kind of forecaster will be presented in the <a href="https://diveki.github.io/projects/sommelier.html">next report</a>.</p>
 <p>Since this analysis is based on a simplistic approach there is plenty of rooms for improvement:</p>
 <ul>
 <li>Collecting much more data and preferably less noisy data from professional wine experts.</li>
@@ -13156,7 +13156,7 @@ div#notebook {
 <li>Write a complex code for information extraction into categories like taste, aroma, flavor, palatte, body etc. Finding words into these predefind categories could boost the performance of an algorithmic sommelier by a lot. </li>
 </ul>
 <p>Finally we showed that <strong>using methodical analysis, algorithms can help people to become excellent sommeliers.</strong></p>
-<p>If you have any questions, observations or suggestions please contact me at <a href="diveki@gmail.com">diveki@gmail.com</a>. You can also fork this project from <a href="https://github.com/diveki/WineExpert">my GitHub page</a>.</p>
+<p>If you have any questions, observations or suggestions please contact me at <a href="diveki@gmail.com">diveki@gmail.com</a>. You can also fork this project from <a href="https://github.com/diveki/WineSommelier">my GitHub repository</a> or you can take a sneaky look at <a href="https://diveki.github.io">my GitHub Pages website</a>.</p>
 
 </div>
 </div>
@@ -13165,7 +13165,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="7.-Appendix:-Getting-the-data">7. Appendix: Getting the data<a class="anchor-link" href="#7.-Appendix:-Getting-the-data">&#182;</a></h1><h2 id="Scraping">Scraping<a class="anchor-link" href="#Scraping">&#182;</a></h2><p>We were using the <em>Bibendum</em> and <em>Majestic Wine</em> websites to extract relevant information. You can find the two python codes <a href="https://github.com/diveki/WineExpert/tree/master/Scraping">here</a>. Unfortunately, there is a great chance that the <em>webScraping.py</em> code will fail since Bibendum has re-structered its website after we have completed the scraping code.</p>
+<h1 id="7.-Appendix:-Getting-the-data">7. Appendix: Getting the data<a class="anchor-link" href="#7.-Appendix:-Getting-the-data">&#182;</a></h1><h2 id="Scraping">Scraping<a class="anchor-link" href="#Scraping">&#182;</a></h2><p>We were using the <em>Bibendum</em> and <em>Majestic Wine</em> websites to extract relevant information. You can find the two python codes <a href="https://github.com/diveki/WineSommelier/tree/master/Scraping">here</a>. Unfortunately, there is a great chance that the <em>webScraping.py</em> code will fail since Bibendum has re-structered its website after we have completed the scraping code.</p>
 <p>The codes heavily rely on the <em>requests, Beautiful Soup</em> and <em>re</em> python packeges. The code loops through each page on the website that contains the list of wines and saves down their name and the link they point to into a wine class. The wine class is initialized by the name of the wine and its link. This class has methods to retrieve the description text about the wine and any other interesting detail about the wine, like name of producer, country, alcohol level, grape variety, body etc. Unfortunately these additional information are not present in all wines. Therefore we step through on each of them and fill the missing information with NAs. Finally the data is saved to the disk in .xlsx format. The combined data from Bibendum and Majestic Wine (at July 2018) builds upt to a total of 2366 items.</p>
 <h2 id="Data-cleaning">Data cleaning<a class="anchor-link" href="#Data-cleaning">&#182;</a></h2><ul>
 <li>We take any text based input and turn it into lower case characters and removed any accents to make everything uniform. </li>
