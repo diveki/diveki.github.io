@@ -229,6 +229,10 @@ th {
   img {
     page-break-inside: avoid;
   }
+  /*added by me */
+  tr:nth-child(even){background-color: #f2f2f2}
+
+  /*###############*/
   img {
     max-width: 100% !important;
   }
@@ -8451,15 +8455,15 @@ label {
 }
 /* Flexible box model classes */
 /* Taken from Alex Russell http://infrequently.org/2009/08/css-3-progress/ */
-/* This file is a compatability layer.  It allows the usage of flexible box 
+/* This file is a compatability layer.  It allows the usage of flexible box
 model layouts accross multiple browsers, including older browsers.  The newest,
 universal implementation of the flexible box model is used when available (see
-`Modern browsers` comments below).  Browsers that are known to implement this 
+`Modern browsers` comments below).  Browsers that are known to implement this
 new spec completely include:
 
     Firefox 28.0+
     Chrome 29.0+
-    Internet Explorer 11+ 
+    Internet Explorer 11+
     Opera 17.0+
 
 Browsers not listed, including Safari, are supported via the styling under the
@@ -9694,6 +9698,7 @@ div.input {
 }
 /* input_area and input_prompt must match in top border and margin for alignment */
 div.input_prompt {
+  display: none;
   color: #303F9F;
   border-top: 1px solid transparent;
 }
@@ -9964,6 +9969,7 @@ div.out_prompt_overlay:hover {
   background: rgba(240, 240, 240, 0.5);
 }
 div.output_prompt {
+  display: none;   /* added by me */
   color: #D84315;
 }
 /* This class is the outer container of all output sections. */
@@ -11233,7 +11239,7 @@ div#pager .ui-resizable-handle {
   background: #f7f7f7;
   border-top: 1px solid #cfcfcf;
   border-bottom: 1px solid #cfcfcf;
-  /* This injects handle bars (a short, wide = symbol) for 
+  /* This injects handle bars (a short, wide = symbol) for
         the resize handle. */
 }
 div#pager .ui-resizable-handle::after {
@@ -11676,7 +11682,7 @@ ul.typeahead-list > li > a {
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
 <style type="text/css">
-    
+
 /* Temporary definitions which will become obsolete with Notebook release 5.0 */
 .ansi-black-fg { color: #3E424D; }
 .ansi-black-bg { background-color: #3E424D; }
@@ -11730,14 +11736,14 @@ div#notebook {
   div.cell {
     display: block;
     page-break-inside: avoid;
-  } 
-  div.output_wrapper { 
-    display: block;
-    page-break-inside: avoid; 
   }
-  div.output { 
+  div.output_wrapper {
     display: block;
-    page-break-inside: avoid; 
+    page-break-inside: avoid;
+  }
+  div.output {
+    display: block;
+    page-break-inside: avoid;
   }
 }
 </style>
@@ -11873,7 +11879,7 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">nltk</span>
 <span class="kn">from</span> <span class="nn">nltk</span> <span class="k">import</span> <span class="n">word_tokenize</span>
-<span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="k">import</span> <span class="n">WordNetLemmatizer</span> 
+<span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="k">import</span> <span class="n">WordNetLemmatizer</span>
 <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="k">import</span> <span class="n">stopwords</span>
 <span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span> <span class="n">punctuation</span>
 
@@ -11936,12 +11942,33 @@ div#notebook {
     }
 
     .dataframe thead th {
-        text-align: right;
+        text-align: left !important;
+    }
+    .dataframe tbody tr:nth-child(even) {
+       background-color: #eee;
+    }
+    .dataframe thead {
+      background-color: #424242;
+      color: white;
+    }
+    .dataframe td, tr, th {
+      border: none !important;
+      border-style: hidden !important;
+      text-align: left !important;
+    }
+    table {
+      border: none !important;
+      border-style: hidden !important;
+      box-shadow: 10px 10px 5px #888888;
+      width: 100%;
+    }
+    .dataframe tbody tr:hover {
+      background-color:#b3f0ff;
     }
 </style>
-<table border="1" class="dataframe">
+<table class="dataframe">
   <thead>
-    <tr style="text-align: right;">
+    <tr style="text-align: center;">
       <th></th>
       <th>abv</th>
       <th>colour</th>
@@ -12059,7 +12086,7 @@ div#notebook {
 <span class="n">combined_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span>
 <span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;grape_variety&#39;</span>
 
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">data_input</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> 
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">data_input</span><span class="p">[</span><span class="n">target</span><span class="p">],</span>
                                                     <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 
@@ -12075,7 +12102,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># plotting the number of samples for each grape variety</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.4</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> 
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
                  <span class="n">palette</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Grape varieties&#39;</span><span class="p">)</span>
@@ -12297,7 +12324,7 @@ div#notebook {
                     <span class="n">palette_def</span> <span class="o">=</span> <span class="s1">&#39;Reds_r&#39;</span>
                 <span class="n">filt_cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">limit</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;grape&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">types</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
                 <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="n">ci</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">filt_cond</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> 
+                    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">filt_cond</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
                     <span class="n">ax</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span>
                     <span class="n">palette</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="n">palette_def</span><span class="p">,</span><span class="n">limit</span><span class="o">+</span><span class="mi">3</span><span class="p">))</span><span class="c1">#(&quot;Blues_r&quot;,15))</span>
                 <span class="n">ii</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -12478,7 +12505,7 @@ div#notebook {
     <span class="k">elif</span> <span class="n">is_verb</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">VERB</span>
     <span class="k">return</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">NOUN</span>
-    
+
 </pre></div>
 
 </div>
@@ -12594,7 +12621,7 @@ div#notebook {
     <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">add_suffix</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">gr</span><span class="p">)</span>
     <span class="n">tmp</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">tmp</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">tmp</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;token_&#39;</span><span class="o">+</span><span class="n">gr</span><span class="p">,</span><span class="s1">&#39;token&#39;</span><span class="p">)</span>
     <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
-    
+
 <span class="c1"># merge each grape variety with each other on tokens</span>
 <span class="n">df_final</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">),</span> <span class="n">dfs</span><span class="p">)</span>
 </pre></div>
@@ -12910,7 +12937,7 @@ div#notebook {
     <span class="n">dfplot</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">dfplot</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">/</span> <span class="n">dfplot</span><span class="p">[</span><span class="s1">&#39;csum&#39;</span><span class="p">]</span>
 
 <span class="c1"># plotting</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">dfplot</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">dfplot</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="mi">15</span><span class="p">])),</span> <span class="n">sort_col</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;barh&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> 
+<span class="n">ax</span> <span class="o">=</span> <span class="n">dfplot</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">dfplot</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="mi">15</span><span class="p">])),</span> <span class="n">sort_col</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;barh&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
                                                                   <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fsize</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">llabel</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fsize</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
@@ -13207,7 +13234,7 @@ div#notebook {
   </div>
 </body>
 
- 
+
 
 
 </html>
