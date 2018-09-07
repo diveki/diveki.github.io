@@ -2,6 +2,8 @@ import os
 from subprocess import Popen
 import sys
 
+index = ['index']
+
 def get_arguments(arg, alter):
     if arg in sys.argv:
         ind = sys.argv.index(arg)
@@ -16,20 +18,37 @@ def get_arguments(arg, alter):
 
 # register the file that you want to convert
 inFile = sys.argv[1]
+file_comp = os.path.splitext(inFile)
+newFile = file_comp[0]+'.html'
+
+if file_comp[1] == '.ipynb':
+    Popen('jupyter nbconvert '+inFile +' --template basic', shell=True).wait()
+    layout = 'custom/layout.html'
+    navbar = 'custom/navbar.html'
+    # css    = 'custom/main_css.css'
+    css    = 'custom/alternative_css.css'
+    js     = 'custom/main_js.html'
+    mathjax= 'custom/mathjax.txt'
+    footer = 'custom/footer.html'
+else:
+    layout = 'index_custom/index_layout.html'
+    navbar = 'custom/navbar.html'
+    css    = 'index_custom/index_css.css'
+    js     = 'custom/main_js.html'
+    mathjax= 'custom/mathjax.txt'
+    footer = 'custom/footer.html'
 
 title = get_arguments('-title', 'Zsolt Diveki')
 
-Popen('jupyter nbconvert '+inFile +' --template basic', shell=True).wait()
-newFile = os.path.splitext(inFile)[0]+'.html'
+###########################
+template = open(layout, 'r').read()
 
-template = open('custom/layout.html', 'r').read()
-
-read_navbar = open('custom/navbar.html', 'r').read()
-read_css = open('custom/main_css.css', 'r').read()
-read_gs = open('custom/main_js.html','r').read()
+read_navbar = open(navbar, 'r').read()
+read_css = open(css, 'r').read()
+read_gs = open(js,'r').read()
 read_body = open(newFile, 'r').read()
-read_mathjax = open('custom/mathjax.txt', 'r').read()
-read_footer = open('custom/footer.html', 'r').read()
+read_mathjax = open(mathjax, 'r').read()
+read_footer = open(footer, 'r').read()
 #
 template = template.replace("title_block", "\n" + title + "\n")
 template = template.replace("navbar_block", "\n" + read_navbar + "\n")

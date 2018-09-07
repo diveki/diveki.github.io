@@ -4381,6 +4381,7 @@ li.pulse.open > a.dropdown-toggle {
 body {
   overflow: visible;
   padding: 8px;
+  padding-left: 10rem;
   height: 100%;
 }
 
@@ -4468,13 +4469,14 @@ body {
 }
 #body {
    padding:10px;
-   padding-bottom:60px;   /* Height of the footer */
+   padding-left: 10rem;
+   padding-bottom:50px;   /* Height of the footer */
 }
 #footer {
    position:absolute;
    bottom:0;
    width:100%;
-   height:60px;   /* Height of the footer */
+   height:50px;   /* Height of the footer */
    /* background:#6cf; */
 }
 
@@ -4491,5 +4493,9 @@ body {
     text-align: center;
 }
 
-
+/* navbar */
+.bg-secondary {
+  background-color: #99ebff !important
+}
+/*  */
 </style>
