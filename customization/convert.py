@@ -31,15 +31,15 @@ if file_comp[1] == '.ipynb':
     mathjax= 'custom/mathjax.txt'
     footer = 'custom/footer.html'
 else:
-    layout = 'index_custom/index_layout.html'
+    layout = 'custom/layout.html'
     navbar = 'custom/navbar.html'
-    css    = 'index_custom/index_css.css'
+    css    = 'custom/alternative_css.css'
     js     = 'custom/main_js.html'
     mathjax= 'custom/mathjax.txt'
     footer = 'custom/footer.html'
 
 title = get_arguments('-title', 'Zsolt Diveki')
-
+out   = get_arguments('-out', newFile)
 ###########################
 template = open(layout, 'r').read()
 
@@ -58,5 +58,5 @@ template = template.replace("body_block", "\n" + read_body + "\n")
 template = template.replace("math_block", "\n" + read_mathjax + "\n")
 template = template.replace("footer_block", "\n" + read_footer + "\n")
 
-with open(newFile, 'w') as f:
+with open(out, 'w') as f:
     f.write(template)

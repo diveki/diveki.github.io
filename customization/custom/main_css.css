@@ -4458,6 +4458,7 @@ body {
    margin:0;
    padding:0;
    height:100%;
+   /* background-color: #e6ffee; */
 }
 #container {
    min-height:100%;
@@ -4495,7 +4496,15 @@ body {
 
 /* navbar */
 .bg-secondary {
-  background-color: #99ebff !important
+  /* background-color: #99ebff !important */
+  background-color: #006622 !important
+}
+.navbar a {
+    color: #fff !important;
+}
+
+#sideNav li:hover > a {
+  color: #33ff33 !important;
 }
 /*  */
 </style>
