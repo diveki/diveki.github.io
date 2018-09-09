@@ -3,6 +3,8 @@ from subprocess import Popen
 import sys
 
 index = ['index']
+setup_location = 'customization/custom'
+abs_setup_location = os.path.abspath(setup_location)
 
 def get_arguments(arg, alter):
     if arg in sys.argv:
@@ -23,33 +25,45 @@ newFile = file_comp[0]+'.html'
 
 if file_comp[1] == '.ipynb':
     Popen('jupyter nbconvert '+inFile +' --template basic', shell=True).wait()
-    layout = 'custom/layout.html'
-    navbar = 'custom/navbar.html'
-    # css    = 'custom/main_css.css'
-    css    = 'custom/alternative_css.css'
-    js     = 'custom/main_js.html'
-    mathjax= 'custom/mathjax.txt'
-    footer = 'custom/footer.html'
+    layout = os.path.join(setup_location, 'layout.html')
+    navbar = os.path.join(setup_location, 'navbar.html')
+    # css    = os.path.join(setup_location, 'main_css.css'
+    css    = os.path.join(setup_location, 'alternative_css.css')
+    js     = os.path.join(setup_location, 'main_js.html')
+    mathjax= os.path.join(setup_location, 'mathjax.txt')
+    footer = os.path.join(setup_location, 'footer.html')
 else:
-    layout = 'custom/layout.html'
-    navbar = 'custom/navbar.html'
-    css    = 'custom/alternative_css.css'
-    js     = 'custom/main_js.html'
-    mathjax= 'custom/mathjax.txt'
-    footer = 'custom/footer.html'
+    layout = os.path.join(setup_location, 'layout.html')
+    navbar = os.path.join(setup_location, 'navbar.html')
+    css    = os.path.join(setup_location, 'alternative_css.css')
+    js     = os.path.join(setup_location, 'main_js.html')
+    mathjax= os.path.join(setup_location, 'mathjax.txt')
+    footer = os.path.join(setup_location, 'footer.html')
 
 title = get_arguments('-title', 'Zsolt Diveki')
 out   = get_arguments('-out', newFile)
+
+out_rel = out.split(os.sep)
+seps = list(['..']) * (len(out_rel)-1)
+seps = os.sep.join(seps) + os.sep
+if seps == '/':
+    seps = ''
+
+
+print(seps)
+
 ###########################
 template = open(layout, 'r').read()
 
 read_navbar = open(navbar, 'r').read()
+read_navbar = read_navbar.replace('PATHFILL', seps)
 read_css = open(css, 'r').read()
+read_css = read_css.replace('PATHFILL', seps)
 read_gs = open(js,'r').read()
 read_body = open(newFile, 'r').read()
 read_mathjax = open(mathjax, 'r').read()
 read_footer = open(footer, 'r').read()
-#
+
 template = template.replace("title_block", "\n" + title + "\n")
 template = template.replace("navbar_block", "\n" + read_navbar + "\n")
 template = template.replace("js_block", "\n" + read_gs + "\n")
