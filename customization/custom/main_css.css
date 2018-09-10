@@ -4516,4 +4516,10 @@ body {
 .prog-list-style li:hover > i {
   color: #00b300 !important;
 }
+
+/* awesome fonts */
+i {
+  vertical-align: middle;
+}
+/*  */
 </style>
