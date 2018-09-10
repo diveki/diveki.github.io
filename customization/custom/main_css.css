@@ -4511,4 +4511,9 @@ body {
   color: #33ff33 !important;
 }
 /*  */
+
+/* List items */
+.prog-list-style li:hover > i {
+  color: #00b300 !important;
+}
 </style>
