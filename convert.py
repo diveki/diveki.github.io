@@ -45,12 +45,10 @@ out   = get_arguments('-out', newFile)
 
 out_rel = out.split(os.sep)
 seps = list(['..']) * (len(out_rel)-1)
-seps = os.sep.join(seps) + os.sep
+seps = '/'.join(seps) + '/'
 if seps == '/':
     seps = ''
 
-
-print(seps)
 
 ###########################
 template = open(layout, 'r').read()
