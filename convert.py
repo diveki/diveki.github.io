@@ -61,12 +61,17 @@ read_gs = open(js,'r').read()
 read_body = open(newFile, 'r').read()
 read_mathjax = open(mathjax, 'r').read()
 read_footer = open(footer, 'r').read()
+back_button = '\n<div class="mb-5"><a href="index.html" class="btn btn-outline-success btn-md active" role="button" aria-pressed="true">Back</a></div>\n'
 
 template = template.replace("title_block", "\n" + title + "\n")
 template = template.replace("navbar_block", "\n" + read_navbar + "\n")
 template = template.replace("js_block", "\n" + read_gs + "\n")
 template = template.replace("css_block", "\n" + read_css + "\n")
 template = template.replace("body_block", "\n" + read_body + "\n")
+if file_comp[1] == '.ipynb':
+    template = template.replace("back_button", back_button )
+else:
+    template = template.replace("back_button", '' )
 template = template.replace("math_block", "\n" + read_mathjax + "\n")
 template = template.replace("footer_block", "\n" + read_footer + "\n")
 
