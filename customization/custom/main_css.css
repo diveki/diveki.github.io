@@ -4494,7 +4494,7 @@ body {
     bottom: 0;
     width: 100%;
     background-color: #f2f2f2;
-    color: #1a1aff;
+    color: #fff;
     text-align: center;
 }
 
@@ -4520,6 +4520,13 @@ body {
 /* awesome fonts */
 i {
   vertical-align: middle;
+}
+/*  */
+
+/* img setup */
+.card-img-top {
+  width: 100%;
+  height: 70%;
 }
 /*  */
 </style>
