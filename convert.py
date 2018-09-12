@@ -43,7 +43,7 @@ else:
 title = get_arguments('-title', 'Zsolt Diveki')
 out   = get_arguments('-out', newFile)
 
-out_rel = out.split(os.sep)
+out_rel = out.split('/')
 seps = list(['..']) * (len(out_rel)-1)
 seps = '/'.join(seps) + '/'
 if seps == '/':
