@@ -32,6 +32,10 @@ d_container = [
      'title': 'Sommelier_Algorithm',
      'out_file': 'projects/wine/sommelier.html'
     },
+    {'file_name': 'body_texts/vectorizer_publish.ipynb',
+     'title': 'Vector_model',
+     'out_file': 'projects/wine/tfidf.html'
+    }
 ]
 
 for item in d_container:
