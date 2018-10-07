@@ -102,9 +102,1774 @@ Sommelier_Algorithm
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Algorithms-blind-tasting-wines">Algorithms blind tasting wines<a class="anchor-link" href="#Algorithms-blind-tasting-wines">&#182;</a></h1>
+<h1 id="Algorithms-blind-tasting-wines-(Soon-be-finished)">Algorithms blind tasting wines (Soon be finished)<a class="anchor-link" href="#Algorithms-blind-tasting-wines-(Soon-be-finished)">&#182;</a></h1>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="k">import</span> <span class="n">metrics</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="k">import</span> <span class="n">TfidfVectorizer</span><span class="p">,</span> <span class="n">CountVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">cross_val_score</span><span class="p">,</span> <span class="n">StratifiedKFold</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="k">import</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">FeatureUnion</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">FunctionTransformer</span><span class="p">,</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">,</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">LabelBinarizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="k">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="k">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestClassifier</span><span class="p">,</span> <span class="n">AdaBoostClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="k">import</span> <span class="n">MultinomialNB</span>
+
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="k">import</span> <span class="n">word_tokenize</span>
+<span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="k">import</span> <span class="n">WordNetLemmatizer</span> 
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="k">import</span> <span class="n">stopwords</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span> <span class="n">punctuation</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../DataBase/5_grape_db.xlsx&#39;</span>
+
+<span class="n">a0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="n">a0</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[2]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>abv</th>
+      <th>colour</th>
+      <th>country</th>
+      <th>description</th>
+      <th>grape_variety</th>
+      <th>name</th>
+      <th>Body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>13.5</td>
+      <td>red</td>
+      <td>USA</td>
+      <td>this wine has concentrated depth and purity of...</td>
+      <td>pinot noir</td>
+      <td>A to Z Pinot Noir 2014</td>
+      <td>light</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>13.5</td>
+      <td>red</td>
+      <td>Argentina</td>
+      <td>a delicate, floral wine with soft cherry and s...</td>
+      <td>pinot noir</td>
+      <td>Alamos Seleccion Pinot Noir 2016</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>12.5</td>
+      <td>red</td>
+      <td>Italy</td>
+      <td>a medium-bodied wine, with aromas and flavours...</td>
+      <td>pinot noir</td>
+      <td>Alois Lageder Alto Adige Pinot Noir 2014</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>13.5</td>
+      <td>white</td>
+      <td>Italy</td>
+      <td>very fresh aromas and flavours of gooseberry a...</td>
+      <td>sauvignon blanc</td>
+      <td>Alois Lageder Terlaner Sauvignon Blanc 2016</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13.5</td>
+      <td>red</td>
+      <td>Argentina</td>
+      <td>this wine has concentrated aromas and flavours...</td>
+      <td>cabernet sauvignon</td>
+      <td>Argento Cabernet Sauvignon 2014</td>
+      <td>full</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">a0</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span>
+<span class="n">limit</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="c1">## removing varieties that have only one member in the database</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="n">varieties</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">counts</span> <span class="k">if</span> <span class="n">counts</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">limit</span><span class="p">]</span>
+<span class="n">data_input</span> <span class="o">=</span> <span class="n">a0</span><span class="p">[</span><span class="n">a0</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">varieties</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_input</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>abv</th>
+      <th>colour</th>
+      <th>country</th>
+      <th>description</th>
+      <th>grape_variety</th>
+      <th>name</th>
+      <th>Body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>13.5</td>
+      <td>red</td>
+      <td>USA</td>
+      <td>this wine has concentrated depth and purity of...</td>
+      <td>pinot noir</td>
+      <td>A to Z Pinot Noir 2014</td>
+      <td>light</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>13.5</td>
+      <td>red</td>
+      <td>Argentina</td>
+      <td>a delicate, floral wine with soft cherry and s...</td>
+      <td>pinot noir</td>
+      <td>Alamos Seleccion Pinot Noir 2016</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>12.5</td>
+      <td>red</td>
+      <td>Italy</td>
+      <td>a medium-bodied wine, with aromas and flavours...</td>
+      <td>pinot noir</td>
+      <td>Alois Lageder Alto Adige Pinot Noir 2014</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>13.5</td>
+      <td>white</td>
+      <td>Italy</td>
+      <td>very fresh aromas and flavours of gooseberry a...</td>
+      <td>sauvignon blanc</td>
+      <td>Alois Lageder Terlaner Sauvignon Blanc 2016</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>13.0</td>
+      <td>white</td>
+      <td>Argentina</td>
+      <td>this lightly oaked wine offers aromas of ripe ...</td>
+      <td>chardonnay</td>
+      <td>Argento Chardonnay 2015</td>
+      <td>medium</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># defining stopwords: using the one that comes with nltk + appending it with words seen from the above evaluation</span>
+<span class="n">stop_words</span> <span class="o">=</span> <span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+<span class="n">stop_append</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="s1">&#39;wine&#39;</span><span class="p">,</span> <span class="s1">&#39;fruit&#39;</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">,</span> <span class="s1">&#39;flavour&#39;</span><span class="p">,</span> <span class="s1">&#39;aromas&#39;</span><span class="p">,</span> <span class="s1">&#39;palate&#39;</span><span class="p">]</span>
+<span class="n">stop_words1</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">stop_words</span> <span class="o">+</span> <span class="n">stop_append</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># list of word types (nouns and adjectives) to leave in the text</span>
+<span class="n">defTags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">,</span> <span class="s1">&#39;NNS&#39;</span><span class="p">,</span> <span class="s1">&#39;NNP&#39;</span><span class="p">,</span> <span class="s1">&#39;NNPS&#39;</span><span class="p">,</span> <span class="s1">&#39;JJ&#39;</span><span class="p">,</span> <span class="s1">&#39;JJS&#39;</span><span class="p">,</span> <span class="s1">&#39;JJR&#39;</span><span class="p">]</span><span class="c1">#, &#39;RB&#39;, &#39;RBS&#39;, &#39;RBR&#39;, &#39;VB&#39;, &#39;VBD&#39;, &#39;VBG&#39;, &#39;VBN&#39;, &#39;VBP&#39;, &#39;VBZ&#39;]</span>
+
+<span class="c1"># functions to determine the type of a word</span>
+<span class="k">def</span> <span class="nf">is_noun</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tag</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">,</span> <span class="s1">&#39;NNS&#39;</span><span class="p">,</span> <span class="s1">&#39;NNP&#39;</span><span class="p">,</span> <span class="s1">&#39;NNPS&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">is_verb</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tag</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;VB&#39;</span><span class="p">,</span> <span class="s1">&#39;VBD&#39;</span><span class="p">,</span> <span class="s1">&#39;VBG&#39;</span><span class="p">,</span> <span class="s1">&#39;VBN&#39;</span><span class="p">,</span> <span class="s1">&#39;VBP&#39;</span><span class="p">,</span> <span class="s1">&#39;VBZ&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">is_adverb</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tag</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;RB&#39;</span><span class="p">,</span> <span class="s1">&#39;RBR&#39;</span><span class="p">,</span> <span class="s1">&#39;RBS&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">is_adjective</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tag</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;JJ&#39;</span><span class="p">,</span> <span class="s1">&#39;JJR&#39;</span><span class="p">,</span> <span class="s1">&#39;JJS&#39;</span><span class="p">]</span>
+
+<span class="c1"># transform tag forms</span>
+<span class="k">def</span> <span class="nf">penn_to_wn</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">is_adjective</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">ADJ</span>
+    <span class="k">elif</span> <span class="n">is_noun</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">NOUN</span>
+    <span class="k">elif</span> <span class="n">is_adverb</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">ADV</span>
+    <span class="k">elif</span> <span class="n">is_verb</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">VERB</span>
+    <span class="k">return</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">wordnet</span><span class="o">.</span><span class="n">NOUN</span>
+    
+<span class="c1"># lemmatizer + tokenizer (+ stemming) class</span>
+<span class="k">class</span> <span class="nc">LemmaTokenizer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wnl</span> <span class="o">=</span> <span class="n">WordNetLemmatizer</span><span class="p">()</span>
+        <span class="c1"># we define (but not use) a stemming method, uncomment the last line in __call__ to get stemming tooo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stemmer</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">SnowballStemmer</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">)</span> 
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+        <span class="c1"># pattern for numbers | words of length=2 | punctuations | words of length=1</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[0-9]+|\b[\w]{2,2}\b|[%.,_`!&quot;&amp;?</span><span class="se">\&#39;</span><span class="s1">)({~@;:#}+-]+|\b[\w]{1,1}\b&#39;</span><span class="p">)</span>
+        <span class="c1"># tokenize document</span>
+        <span class="n">doc_tok</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="c1">#filter out patterns from words</span>
+        <span class="n">doc_tok</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">doc_tok</span><span class="p">]</span>
+        <span class="c1"># get rid of anything with length=1</span>
+        <span class="n">doc_tok</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">doc_tok</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># position tagging</span>
+        <span class="n">doc_tagged</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">doc_tok</span><span class="p">)</span>
+        <span class="c1"># selecting nouns and adjectives</span>
+        <span class="n">doc_tagged</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc_tagged</span> <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">defTags</span><span class="p">]</span>
+        <span class="c1"># preparing lemmatization</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">penn_to_wn</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc_tagged</span><span class="p">]</span>
+        <span class="c1"># lemmatization</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">wnl</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">]</span>
+        <span class="c1"># uncomment if you want stemming as well</span>
+        <span class="c1">#doc = [self.stemmer.stem(x) for x in doc]</span>
+        <span class="k">return</span> <span class="n">doc</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TextSelector</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transformer to select a single column from the data frame to perform additional transformations on</span>
+<span class="sd">    Use on text columns in the data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">parg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
+    
+<span class="k">class</span> <span class="nc">NumberSelector</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transformer to select a single column from the data frame to perform additional transformations on</span>
+<span class="sd">    Use on numeric columns in the data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]]</span>
+
+<span class="k">class</span> <span class="nc">MyLabelBinarizer</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">LabelBinarizer</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">body_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">])</span>
+<span class="n">colour_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;colour&#39;</span><span class="p">])</span>
+<span class="n">data_input</span> <span class="o">=</span> <span class="n">data_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">body_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_input</span> <span class="o">=</span> <span class="n">data_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">colour_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># split the data into train and test</span>
+<span class="n">combined_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="s1">&#39;light&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;dry&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;rose&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">]</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;grape_variety&#39;</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">data_input</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> 
+                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">full</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)),</span>
+                <span class="p">])</span>
+<span class="n">medium</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">)),</span>
+                <span class="p">])</span>
+<span class="n">light</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;light&#39;</span><span class="p">)),</span>
+                <span class="p">])</span>
+<span class="n">dry</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;dry&#39;</span><span class="p">)),</span>
+                <span class="p">])</span>
+<span class="n">red</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)),</span>
+                <span class="p">])</span>
+<span class="n">rose</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;rose&#39;</span><span class="p">)),</span>
+                <span class="p">])</span>
+<span class="n">white</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)),</span>
+                <span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">TextSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s1">&#39;vectorizer&#39;</span><span class="p">,</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">stop_words</span><span class="o">=</span><span class="n">stop_words</span><span class="p">,</span> <span class="n">analyzer</span><span class="o">=</span><span class="s1">&#39;word&#39;</span><span class="p">,</span> 
+                                               <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">LemmaTokenizer</span><span class="p">()))</span>
+                <span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">feats</span> <span class="o">=</span> <span class="n">FeatureUnion</span><span class="p">([(</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="n">medium</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;light&#39;</span><span class="p">,</span> <span class="n">light</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;dry&#39;</span><span class="p">,</span> <span class="n">dry</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">red</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;rose&#39;</span><span class="p">,</span> <span class="n">rose</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">white</span><span class="p">)</span>
+                      <span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;feats&#39;</span><span class="p">,</span> <span class="n">feats</span><span class="p">),</span>
+                 <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+                 <span class="p">])</span>
+    
+<span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[13]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Pipeline(steps=[(&#39;feats&#39;, FeatureUnion(n_jobs=1,
+       transformer_list=[(&#39;full&#39;, Pipeline(steps=[(&#39;selector&#39;, NumberSelector(key=&#39;full&#39;))])), (&#39;medium&#39;, Pipeline(steps=[(&#39;selector&#39;, NumberSelector(key=&#39;medium&#39;))])), (&#39;light&#39;, Pipeline(steps=[(&#39;selector&#39;, NumberSelector(key=&#39;light&#39;))])), (&#39;dry&#39;, Pipeline(st...stimators=10, n_jobs=1, oob_score=False, random_state=42,
+            verbose=0, warm_start=False))])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#train stats</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+                 precision    recall  f1-score   support
+
+     chardonnay       1.00      1.00      1.00        58
+     pinot noir       1.00      1.00      1.00        40
+sauvignon blanc       1.00      1.00      1.00        55
+          syrah       1.00      1.00      1.00        27
+
+    avg / total       1.00      1.00      1.00       180
+
+[[58  0  0  0]
+ [ 0 40  0  0]
+ [ 0  0 55  0]
+ [ 0  0  0 27]]
+Counter({&#39;chardonnay&#39;: 58, &#39;sauvignon blanc&#39;: 55, &#39;pinot noir&#39;: 40, &#39;syrah&#39;: 27})
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># test stats</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.7444444444444445
+                 precision    recall  f1-score   support
+
+     chardonnay       0.71      0.97      0.82        33
+     pinot noir       0.68      0.89      0.77        19
+sauvignon blanc       0.83      0.48      0.61        21
+          syrah       1.00      0.47      0.64        17
+
+    avg / total       0.79      0.74      0.73        90
+
+[[32  0  1  0]
+ [ 2 17  0  0]
+ [11  0 10  0]
+ [ 0  8  1  8]]
+Counter({&#39;chardonnay&#39;: 33, &#39;sauvignon blanc&#39;: 21, &#39;pinot noir&#39;: 19, &#39;syrah&#39;: 17})
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### stratified training</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">StratifiedKFold</span>
+<span class="n">skf</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">sc_mean</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">skf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">data_input</span><span class="p">[</span><span class="n">target</span><span class="p">]):</span>
+    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span><span class="p">,</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span><span class="p">,</span> <span class="n">target</span><span class="p">])</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span><span class="n">combined_features</span><span class="p">])</span>
+    <span class="n">sc_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">sc_mean</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">sc_mean</span><span class="p">)))</span>
+    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.6956521739130435
+                 precision    recall  f1-score   support
+
+     chardonnay       0.71      0.97      0.82        31
+     pinot noir       0.62      0.50      0.56        20
+sauvignon blanc       0.94      0.58      0.71        26
+          syrah       0.50      0.60      0.55        15
+
+    avg / total       0.72      0.70      0.69        92
+
+[[30  0  1  0]
+ [ 1 10  0  9]
+ [11  0 15  0]
+ [ 0  6  0  9]]
+Counter({&#39;chardonnay&#39;: 31, &#39;sauvignon blanc&#39;: 26, &#39;pinot noir&#39;: 20, &#39;syrah&#39;: 15})
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.7888888888888889
+                 precision    recall  f1-score   support
+
+     chardonnay       0.81      0.73      0.77        30
+     pinot noir       0.77      0.85      0.81        20
+sauvignon blanc       0.73      0.88      0.80        25
+          syrah       0.91      0.67      0.77        15
+
+    avg / total       0.80      0.79      0.79        90
+
+[[22  0  8  0]
+ [ 2 17  0  1]
+ [ 3  0 22  0]
+ [ 0  5  0 10]]
+Counter({&#39;chardonnay&#39;: 30, &#39;sauvignon blanc&#39;: 25, &#39;pinot noir&#39;: 20, &#39;syrah&#39;: 15})
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.7613636363636364
+                 precision    recall  f1-score   support
+
+     chardonnay       0.72      0.87      0.79        30
+     pinot noir       0.75      0.95      0.84        19
+sauvignon blanc       0.79      0.60      0.68        25
+          syrah       0.89      0.57      0.70        14
+
+    avg / total       0.77      0.76      0.75        88
+
+[[26  0  4  0]
+ [ 0 18  0  1]
+ [10  0 15  0]
+ [ 0  6  0  8]]
+Counter({&#39;chardonnay&#39;: 30, &#39;sauvignon blanc&#39;: 25, &#39;pinot noir&#39;: 19, &#39;syrah&#39;: 14})
+Mean: 0.7486348997218562
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Kaggle-database">Kaggle database<a class="anchor-link" href="#Kaggle-database">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../DataBase/winemag-data-130k-v2.csv&#39;</span>
+
+<span class="n">kaggle</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;grape_variety&#39;</span><span class="p">])</span>
+<span class="n">kaggle</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kaggle</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">kaggle</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[17]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>description</th>
+      <th>grape_variety</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Aromas include tropical fruit, broom, brimston...</td>
+      <td>white blend</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>This is ripe and fruity, a wine that is smooth...</td>
+      <td>portuguese red</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Tart and snappy, the flavors of lime flesh and...</td>
+      <td>pinot gris</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Pineapple rind, lemon pith and orange blossom ...</td>
+      <td>riesling</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Much like the regular bottling from 2012, this...</td>
+      <td>pinot noir</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">shiraz_filter</span><span class="p">(</span><span class="n">ss</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ss</span> <span class="o">==</span> <span class="s1">&#39;shiraz&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;syrah&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ss</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kaggle</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kaggle</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">shiraz_filter</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kaggle_input</span> <span class="o">=</span> <span class="n">kaggle</span><span class="p">[</span><span class="n">kaggle</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">varieties</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">grape_variety</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[36]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([&#39;pinot noir&#39;, &#39;chardonnay&#39;, &#39;sauvignon blanc&#39;, &#39;syrah&#39;],
+      dtype=object)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[37]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(34943, 3)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">colour_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;pinot noir&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;syrah&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;chardonnay&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;sauvignon blanc&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kaggle_input</span><span class="p">[</span><span class="s1">&#39;colour&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kaggle_input</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">colour_dict</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># split the data into train and test</span>
+<span class="n">combined_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;grape_variety&#39;</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">kaggle_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">kaggle_input</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> 
+                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">TextSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s1">&#39;vectorizer&#39;</span><span class="p">,</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">stop_words</span><span class="o">=</span><span class="n">stop_words</span><span class="p">,</span> <span class="n">analyzer</span><span class="o">=</span><span class="s1">&#39;word&#39;</span><span class="p">,</span> 
+                                               <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">LemmaTokenizer</span><span class="p">()))</span>
+                <span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">),</span>
+                 <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+                 <span class="p">])</span>
+    
+<span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[39]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Pipeline(memory=None,
+     steps=[(&#39;text&#39;, Pipeline(memory=None,
+     steps=[(&#39;selector&#39;, TextSelector(key=&#39;description&#39;)), (&#39;vectorizer&#39;, TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+        dtype=&lt;class &#39;numpy.int64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+        lowercase=True, max_df=1.0, max_featur...stimators=10, n_jobs=1,
+            oob_score=False, random_state=42, verbose=0, warm_start=False))])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># test stats</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.8415712799167534
+                 precision    recall  f1-score   support
+
+     chardonnay       0.81      0.95      0.87      3822
+     pinot noir       0.84      0.94      0.89      4378
+sauvignon blanc       0.90      0.59      0.71      1635
+          syrah       0.92      0.60      0.73      1697
+
+    avg / total       0.85      0.84      0.83     11532
+
+[[3620  109   89    4]
+ [ 184 4100   11   83]
+ [ 620   49  964    2]
+ [  64  603    9 1021]]
+Counter({&#39;pinot noir&#39;: 4378, &#39;chardonnay&#39;: 3822, &#39;syrah&#39;: 1697, &#39;sauvignon blanc&#39;: 1635})
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### stratified training</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">StratifiedKFold</span>
+<span class="n">skf</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">sc_mean</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">skf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">kaggle_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">kaggle_input</span><span class="p">[</span><span class="n">target</span><span class="p">]):</span>
+    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span><span class="p">,</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span><span class="p">,</span> <span class="n">target</span><span class="p">])</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span><span class="n">combined_features</span><span class="p">])</span>
+    <span class="n">sc_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">sc_mean</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">sc_mean</span><span class="p">)))</span>
+    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.845467032967033
+                 precision    recall  f1-score   support
+
+     chardonnay       0.81      0.94      0.87      3914
+     pinot noir       0.85      0.94      0.90      4421
+sauvignon blanc       0.89      0.58      0.70      1655
+          syrah       0.91      0.62      0.73      1658
+
+    avg / total       0.85      0.85      0.84     11648
+
+[[3689  109  112    4]
+ [ 148 4175    6   92]
+ [ 646   43  964    2]
+ [  57  577    4 1020]]
+Counter({&#39;pinot noir&#39;: 4421, &#39;chardonnay&#39;: 3914, &#39;syrah&#39;: 1658, &#39;sauvignon blanc&#39;: 1655})
+0.8390281593406593
+                 precision    recall  f1-score   support
+
+     chardonnay       0.80      0.95      0.87      3914
+     pinot noir       0.85      0.93      0.89      4421
+sauvignon blanc       0.89      0.56      0.68      1655
+          syrah       0.91      0.62      0.74      1658
+
+    avg / total       0.85      0.84      0.83     11648
+
+[[3723   90   95    6]
+ [ 212 4094   19   96]
+ [ 686   44  921    4]
+ [  55  563    5 1035]]
+Counter({&#39;pinot noir&#39;: 4421, &#39;chardonnay&#39;: 3914, &#39;syrah&#39;: 1658, &#39;sauvignon blanc&#39;: 1655})
+0.8443375976646347
+                 precision    recall  f1-score   support
+
+     chardonnay       0.80      0.96      0.87      3914
+     pinot noir       0.87      0.92      0.89      4421
+sauvignon blanc       0.87      0.58      0.69      1654
+          syrah       0.89      0.63      0.74      1658
+
+    avg / total       0.85      0.84      0.84     11647
+
+[[3749   54  109    2]
+ [ 199 4080   25  117]
+ [ 649   43  955    7]
+ [  70  527   11 1050]]
+Counter({&#39;pinot noir&#39;: 4421, &#39;chardonnay&#39;: 3914, &#39;syrah&#39;: 1658, &#39;sauvignon blanc&#39;: 1654})
+Mean: 0.842944263324109
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">TextSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s1">&#39;vectorizer&#39;</span><span class="p">,</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">stop_words</span><span class="o">=</span><span class="n">stop_words</span><span class="p">,</span> <span class="n">analyzer</span><span class="o">=</span><span class="s1">&#39;word&#39;</span><span class="p">,</span> 
+                                               <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">LemmaTokenizer</span><span class="p">()))</span>
+                <span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">),</span>
+                 <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+                 <span class="p">])</span>
+    
+<span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">kaggle_input</span><span class="p">[[</span><span class="s1">&#39;description&#39;</span><span class="p">]],</span> <span class="n">kaggle_input</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[42]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Pipeline(memory=None,
+     steps=[(&#39;text&#39;, Pipeline(memory=None,
+     steps=[(&#39;selector&#39;, TextSelector(key=&#39;description&#39;)), (&#39;vectorizer&#39;, TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+        dtype=&lt;class &#39;numpy.int64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+        lowercase=True, max_df=1.0, max_featur...stimators=10, n_jobs=1,
+            oob_score=False, random_state=42, verbose=0, warm_start=False))])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># test stats</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_input</span><span class="p">[[</span><span class="s1">&#39;description&#39;</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.725925925925926
+                 precision    recall  f1-score   support
+
+     chardonnay       0.71      0.95      0.81        91
+     pinot noir       0.64      0.92      0.76        59
+sauvignon blanc       0.89      0.54      0.67        76
+          syrah       0.79      0.34      0.48        44
+
+    avg / total       0.76      0.73      0.71       270
+
+[[86  1  4  0]
+ [ 1 54  0  4]
+ [32  3 41  0]
+ [ 2 26  1 15]]
+Counter({&#39;chardonnay&#39;: 91, &#39;sauvignon blanc&#39;: 76, &#39;pinot noir&#39;: 59, &#39;syrah&#39;: 44})
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">colour_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">kaggle_input</span><span class="p">[</span><span class="s1">&#39;colour&#39;</span><span class="p">])</span>
+<span class="n">kaggle_input</span> <span class="o">=</span> <span class="n">kaggle_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">colour_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># split the data into train and test</span>
+<span class="n">combined_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">]</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;grape_variety&#39;</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">kaggle_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">kaggle_input</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> 
+                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">red</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)),</span>
+                <span class="p">])</span>
+<span class="n">white</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)),</span>
+                <span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">TextSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s1">&#39;vectorizer&#39;</span><span class="p">,</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">stop_words</span><span class="o">=</span><span class="n">stop_words</span><span class="p">,</span> <span class="n">analyzer</span><span class="o">=</span><span class="s1">&#39;word&#39;</span><span class="p">,</span> 
+                                               <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">LemmaTokenizer</span><span class="p">()))</span>
+                <span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">feats</span> <span class="o">=</span> <span class="n">FeatureUnion</span><span class="p">([(</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">red</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">white</span><span class="p">)</span>
+                      <span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;feats&#39;</span><span class="p">,</span> <span class="n">feats</span><span class="p">),</span>
+                 <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+                 <span class="p">])</span>
+    
+<span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[47]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Pipeline(steps=[(&#39;feats&#39;, FeatureUnion(n_jobs=1,
+       transformer_list=[(&#39;description&#39;, Pipeline(steps=[(&#39;selector&#39;, TextSelector(key=&#39;description&#39;)), (&#39;vectorizer&#39;, TfidfVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+        dtype=&lt;class &#39;numpy.int64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,...stimators=10, n_jobs=1, oob_score=False, random_state=42,
+            verbose=0, warm_start=False))])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># test stats</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.866718695802983
+                 precision    recall  f1-score   support
+
+     chardonnay       0.85      0.98      0.91      3822
+     pinot noir       0.86      0.98      0.92      4378
+sauvignon blanc       0.92      0.59      0.72      1635
+          syrah       0.93      0.59      0.72      1697
+
+    avg / total       0.87      0.87      0.86     11532
+
+[[3735    1   86    0]
+ [   4 4296    1   77]
+ [ 669    0  966    0]
+ [   1  698    0  998]]
+Counter({&#39;pinot noir&#39;: 4378, &#39;chardonnay&#39;: 3822, &#39;syrah&#39;: 1697, &#39;sauvignon blanc&#39;: 1635})
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### stratified training</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">StratifiedKFold</span>
+<span class="n">skf</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">sc_mean</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">skf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">kaggle_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">kaggle_input</span><span class="p">[</span><span class="n">target</span><span class="p">]):</span>
+    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span><span class="p">,</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span><span class="p">,</span> <span class="n">target</span><span class="p">])</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span><span class="n">combined_features</span><span class="p">])</span>
+    <span class="n">sc_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">classification_report</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">,</span> <span class="n">target</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">sc_mean</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">sc_mean</span><span class="p">)))</span>
+    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.8668440934065934
+                 precision    recall  f1-score   support
+
+     chardonnay       0.85      0.97      0.91      3914
+     pinot noir       0.87      0.98      0.92      4421
+sauvignon blanc       0.89      0.61      0.72      1655
+          syrah       0.90      0.60      0.72      1658
+
+    avg / total       0.87      0.87      0.86     11648
+
+[[3793    1  120    0]
+ [   4 4312    1  104]
+ [ 651    0 1004    0]
+ [   2  668    0  988]]
+Counter({&#39;pinot noir&#39;: 4421, &#39;chardonnay&#39;: 3914, &#39;syrah&#39;: 1658, &#39;sauvignon blanc&#39;: 1655})
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.8638392857142857
+                 precision    recall  f1-score   support
+
+     chardonnay       0.85      0.97      0.91      3914
+     pinot noir       0.86      0.98      0.92      4421
+sauvignon blanc       0.91      0.58      0.71      1655
+          syrah       0.90      0.59      0.71      1658
+
+    avg / total       0.87      0.86      0.85     11648
+
+[[3813    3   98    0]
+ [   3 4312    0  106]
+ [ 690    1  963    1]
+ [   0  684    0  974]]
+Counter({&#39;pinot noir&#39;: 4421, &#39;chardonnay&#39;: 3914, &#39;syrah&#39;: 1658, &#39;sauvignon blanc&#39;: 1655})
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+C:\ProgramData\Miniconda3\lib\site-packages\sklearn\feature_extraction\text.py:1059: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  if hasattr(X, &#39;dtype&#39;) and np.issubdtype(X.dtype, np.float):
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.8676053919464239
+                 precision    recall  f1-score   support
+
+     chardonnay       0.84      0.97      0.90      3914
+     pinot noir       0.87      0.98      0.92      4421
+sauvignon blanc       0.90      0.58      0.71      1654
+          syrah       0.92      0.62      0.74      1658
+
+    avg / total       0.87      0.87      0.86     11647
+
+[[3803    4  107    0]
+ [   7 4319    2   93]
+ [ 691    1  962    0]
+ [   5  630    2 1021]]
+Counter({&#39;pinot noir&#39;: 4421, &#39;chardonnay&#39;: 3914, &#39;syrah&#39;: 1658, &#39;sauvignon blanc&#39;: 1654})
+Mean: 0.8660962570224343
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
