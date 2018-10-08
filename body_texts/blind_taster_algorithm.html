@@ -7,6 +7,83 @@
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><em>In this study we present a simple application of Natural Language Processing to classifying grape types based on semi-professional text based description of a glass of wine. We build a classifier model with pipelines and test it through two different datasets. A part of one of the datasets was involved through the building of the concept while the other is a completely out of sample data source. We present classification results of 4 different grape types with an accuracy above 85% which is in our view quite remarkable concerning the simplicity of the model.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Important note: This is purely driven by sel-interest. None of the mentioned entities gave financial nor other type of support. Feel free to copy and distribute this work or give remarks or suggestions.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Wine is one of the most popular alcohols that is being produced. Its production, selling and understanding has several thousands of years of expertise. A big industry has developed around producing the wine but also around describing it. The latter is very important since wine comes in different colour, taste, smell etc. It is important to describe these features of a bottle to customers because almost all of us enjoy different aspects of a glass of wine. The people who describe the wine are called wine experts or sommeliers [<a href="#ch7">1</a>].</p>
+<p>One has to be gifted with good genetics to be able to sense and identify numerous different smells and tastes and have enough lexical knowledge to map these features to his database of wine features. This way they can tell only from sampling a glass of wine what grape was used to make it, in which country was it made, what year and maybe some more. This is an amazing skill to have, but it requires years of practice (hopefully without getting drunk). There are schools, like the <a href="https://www.wsetglobal.com/">Wine and Spirit Education Trust</a> [<a href="#ch7">2</a>] where you can practice these skills and learn a framework to do blind tasting. They have their own terminology to describe certain wine features like: full-budied, oaky, dry, grassy etc. (see [<a href="#ch7">3</a>] for a more complete list).</p>
+<p>Would it be possible to create an algorithm that can identify the grape, the country or the year (vintage) of a wine based on professional description of wines? We think it would be possible, but it is certainly not an easy task and has many conditions to perform it. The very first issue is to find a reliable, complete and professional description of ten thousands of wines (or even more). The second issue is to create a natural language processing (NLP) model that is capable of extracting the relevent information from the descriptions and put them into an input format that a machine can handle and understand. The final issue is to find a classifier that can read the input and based on a set of optimizable parameters it can correctly tell us the target feature (in this study it will be the grape type) of the corresponding wine description.</p>
+<p>In a previous study, called <a href="https://diveki.github.io/projects/wine/wine.html">Become a sommelier</a> [<a href="#ch7">4</a>], we explored the issue of collecting the data. We wrote a web scraping algorithm that collects wine descriptions from various online wine selling websites (please read that study for more details). This database contains roughly 2000 samples. These descriptions are more in a customer friendly style, rarely very detailed, in all together we could call them semi-professional descriptions, but written by experts. Later in our research we came accross a <a href="https://www.kaggle.com/">Kaggle</a> <a href="https://www.kaggle.com/zynicide/wine-reviews">Wine Reviews</a> [<a href="#ch7">5</a>] by <em>zackthoutt</em>. He collected a similar database of wine descriptions from another source as we did and his database contains more than 100 thousand samples. This size of database starts to be in the usable range.</p>
+<p>In another previous study, called <a href="https://diveki.github.io/projects/wine/tfidf.html">Application of TfIdf-vectorizer on wine data</a> [<a href="#ch7">6</a>] we established the concept of our model that extracts information from the wine description and turns it into a vectorized bag-of-words model. We used our own data set (and not the Kaggle one) to build up all the aspects of our model, that we will present here too, but for more details read the mentioned study. To make sure that our model do not get biased during the building process, we divided it into a train and a test set and we use the same concept here too. Basically we neglected any knowledge from the test set during the building process.</p>
+<p>In this study we will combine the created NLP model with a classifier and test the model performance in different scenarios. We will show classification results on both databases separately and also show an example where the Kaggle database trains the constructed model and we test it on our database. We present hyperparameter optimization and kfold verification of the results too.</p>
+<p>This study will step through the following topics:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><a href="#ch1">Loading data</a></li>
+<li><p><a href="#ch2">Model definition</a></p>
+<p>2.1. <a href="#ch2.1">Stopwords</a></p>
+<p>2.2. <a href="#ch2.2">POS tagging and Lemmatizing</a></p>
+<p>2.3. <a href="#ch2.3">Label encoding</a></p>
+<p>2.4. <a href="#ch2.4">Splitting data into train and test sets</a></p>
+<p>2.5. <a href="#ch2.5">Defining selectors</a></p>
+<p>2.6. <a href="#ch2.6">Defining data pre-processors</a></p>
+<p>2.7. <a href="#ch2.7">Defining classiffiers</a></p>
+</li>
+<li><p><a href="#ch3">Train and test the model</a></p>
+<p>3.1. <a href="#ch3.1">Analysis of train predictions</a></p>
+<p>3.2. <a href="#ch3.2">Analysis of test predictions</a></p>
+<p>3.3. <a href="#ch3.3">Testing with different classifiers</a></p>
+<p>3.4. <a href="#ch3.4">Hyperparameter tuning</a></p>
+<p>3.5. <a href="#ch3.5">Kfold verification</a></p>
+</li>
+<li><p><a href="#ch4">Classification of data from Kaggle</a></p>
+<p>4.1. <a href="#ch4.1">Data formatting</a></p>
+<p>4.2. <a href="#ch4.2">Classification</a></p>
+</li>
+<li><p><a href="#ch5">Cross-data validation of the model</a></p>
+</li>
+<li><a href="#ch6">Conclusion</a></li>
+<li><a href="#ch7">References</a></li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch1"></a></p>
+<h1 id="1.-Loading-data">1. Loading data<a class="anchor-link" href="#1.-Loading-data">&#182;</a></h1>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
@@ -290,6 +367,15 @@
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch2"></a></p>
+<h1 id="2.-Model-definition">2. Model definition<a class="anchor-link" href="#2.-Model-definition">&#182;</a></h1>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
@@ -377,6 +463,40 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">body_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">])</span>
+<span class="n">colour_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;colour&#39;</span><span class="p">])</span>
+<span class="n">data_input</span> <span class="o">=</span> <span class="n">data_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">body_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_input</span> <span class="o">=</span> <span class="n">data_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">colour_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># split the data into train and test</span>
+<span class="n">combined_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="s1">&#39;light&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;dry&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;rose&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">]</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;grape_variety&#39;</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">data_input</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> 
+                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -407,51 +527,6 @@
 
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">X</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]]</span>
-
-<span class="k">class</span> <span class="nc">MyLabelBinarizer</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">LabelBinarizer</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-    
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">body_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">])</span>
-<span class="n">colour_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;colour&#39;</span><span class="p">])</span>
-<span class="n">data_input</span> <span class="o">=</span> <span class="n">data_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">body_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">data_input</span> <span class="o">=</span> <span class="n">data_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">colour_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># split the data into train and test</span>
-<span class="n">combined_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="s1">&#39;light&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;dry&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;rose&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">]</span>
-<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;grape_variety&#39;</span>
-
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">data_input</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> 
-                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1778,6 +1853,23 @@ Mean: 0.8660962570224343
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Do not be impatient... Updates are coming soon to this page. In the meanwhile please feel free to contact me at <a href="diveki@gmail.com">diveki@gmail.com</a>. You can also fork this project from <a href="https://github.com/diveki/WineSommelier">my GitHub repository</a> or you can take a sneaky look at <a href="https://diveki.github.io">my GitHub Pages website</a>.</p>
 <p>Just as a bonus, the prelude for this report can be found <a href="https://diveki.github.io/projects/wine.html">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch7"></a></p>
+<h1 id="7.-References">7. References<a class="anchor-link" href="#7.-References">&#182;</a></h1><ol>
+<li><a href="https://en.wikipedia.org/wiki/Sommelier">https://en.wikipedia.org/wiki/Sommelier</a></li>
+<li>Wine and Spirit Education Trust - <a href="https://www.wsetglobal.com/">https://www.wsetglobal.com/</a></li>
+<li>Wine terminology list - <a href="https://www.cawineclub.com/wine-tasting-terms">https://www.cawineclub.com/wine-tasting-terms</a></li>
+<li>Become a sommelier - <a href="https://diveki.github.io/projects/wine/wine.html">https://diveki.github.io/projects/wine/wine.html</a></li>
+<li>Kagge Wine Review - <a href="https://www.kaggle.com/zynicide/wine-reviews">https://www.kaggle.com/zynicide/wine-reviews</a></li>
+<li>Application of TfIdf-vectorizer on wine data - <a href="https://diveki.github.io/projects/wine/tfidf.html">https://diveki.github.io/projects/wine/tfidf.html</a></li>
+</ol>
 
 </div>
 </div>
