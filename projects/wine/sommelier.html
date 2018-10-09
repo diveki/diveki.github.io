@@ -183,26 +183,39 @@ Sommelier_Algorithm
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We start by loading all the required packages and data to solve the above described task. Most of the details about these steps are described in <a href="https://diveki.github.io/projects/wine/wine.html">Become a sommelier</a> and <a href="https://diveki.github.io/projects/wine/tfidf.html">Application of Tfidf-vectorizer on wine data</a>.</p>
+<p>We start by loading <em>pandas, numpy, re, scikit-learn</em> and <em>nltk</em> packages.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># importing packages</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="c1"># sklearn packages</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="k">import</span> <span class="n">metrics</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="k">import</span> <span class="n">TfidfVectorizer</span><span class="p">,</span> <span class="n">CountVectorizer</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">cross_val_score</span><span class="p">,</span> <span class="n">StratifiedKFold</span>
 <span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="k">import</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">FeatureUnion</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">FunctionTransformer</span><span class="p">,</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">,</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">LabelBinarizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">FunctionTransformer</span><span class="p">,</span> <span class="n">StandardScaler</span>
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
 <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="k">import</span> <span class="n">KNeighborsClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="k">import</span> <span class="n">DecisionTreeClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestClassifier</span><span class="p">,</span> <span class="n">AdaBoostClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="k">import</span> <span class="n">MultinomialNB</span>
 
+<span class="c1"># nltk packages</span>
 <span class="kn">import</span> <span class="nn">nltk</span>
 <span class="kn">from</span> <span class="nn">nltk</span> <span class="k">import</span> <span class="n">word_tokenize</span>
 <span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="k">import</span> <span class="n">WordNetLemmatizer</span> 
@@ -215,9 +228,18 @@ Sommelier_Algorithm
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then we load the wine data set that we scraped online. For the details about this data set see the Appendix of <a href="https://diveki.github.io/projects/wine/wine.html">Become a sommelier</a>.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../DataBase/5_grape_db.xlsx&#39;</span>
@@ -236,7 +258,7 @@ Sommelier_Algorithm
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+<div class="prompt output_prompt">Out[3]:</div>
 
 
 
@@ -330,9 +352,18 @@ Sommelier_Algorithm
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This data set contains all kinds of information about 5 grape types. We will use only 4 of the grape types, since the 5th does not have many samples. These 4 types are: <em>pinot noir, syrah</em> (red wines) and <em>chardonnay, sauvignon blanc</em> (white wines). By setting a limit to the minimum sample size we filter the input data.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">a0</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span>
@@ -350,7 +381,7 @@ Sommelier_Algorithm
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_input</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -366,7 +397,7 @@ Sommelier_Algorithm
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[4]:</div>
+<div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -470,14 +501,84 @@ Sommelier_Algorithm
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a id="ch2"></a></p>
-<h1 id="2.-Model-definition">2. Model definition<a class="anchor-link" href="#2.-Model-definition">&#182;</a></h1>
+<p>From this dataframe we will only use some of the features. The columns description and colour are the most important ones, but in the our first implementation we will add the Body feature as an input too. Let us see an example what does the code face in the descripiton column and extract reliable information in order to be able to classify grape types.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[6]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;a delicate, floral wine with soft cherry and strawberry flavours. medium-bodied, fresh and bright, with smooth supple tannins and a savoury, spicy chocolate finish. an 8-hour-long maceration period, followed by cold-settling racked fresh from the press. lees stirring to increase texture. 35-day-long fermentation period at an average temperature of 9-12c.&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch2"></a></p>
+<h1 id="2.-Model-definition">2. Model definition<a class="anchor-link" href="#2.-Model-definition">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As we showed in <a href="https://diveki.github.io/projects/wine/tfidf.html">Application of Tfidf-vectorizer on wine data</a> in order to classify the grape types correctly, the processed input data for one grape should not correlate with other grape types. The applied model has to minimize this correlation. We did not perform an exact optimization process but rather added newer features to the model step-by-step and investigated what happens with the correlation. All the features presented here are the result of the mentioned study, so for details please go and read it. Some of the steps presented below are not discussed in that study, therefore we will elaborate them more.</p>
+<p>Our model will be a very simple vectorized 1-gramm bag-of-words model. We will rely on term frequency - inverse document frequency (tf-idf) vectorization and some additional noise filters and word processors.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch2.1"></a></p>
+<h2 id="2.1.-Stopwords">2.1. Stopwords<a class="anchor-link" href="#2.1.-Stopwords">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As you can see above, there are words in the description column that are certainly not adding any information about the grape type, like <em>with, and, by</em> etc. We can collect a list of these kind of words and call them stopwords. These will be filtered out from the text and not taken into account in the classification process. We will exploit the <em>nltk</em> package's stopwords and extend it with some words and punctuations defined by us.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># defining stopwords: using the one that comes with nltk + appending it with words seen from the above evaluation</span>
@@ -491,9 +592,29 @@ Sommelier_Algorithm
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch2.2"></a></p>
+<h2 id="2.2.-POS-tagging-and-Lemmatizing">2.2. POS tagging and Lemmatizing<a class="anchor-link" href="#2.2.-POS-tagging-and-Lemmatizing">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The text we want to analyse may contain the same word in different forms. A very simple example would be <em>cherry</em> and <em>cherries</em> the singular and plural version of the same word. Another example could be <em>good</em> and <em>better</em>. In their original form, these words are treated as separete ones by the code. To bring them to their common form we apply <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatization</a> [<a href="#ch7">7</a>]. This is a very difficult task since it requires correct identification of the word (noun, verb etc.) type in the context. The latter is position tagging or POS tagging. We use <em>nltk</em>'s pos tagger, but as any other tagger this is not perfect neither.</p>
+<p>The most information of a wine description is carried in its nouns and adjectives. Verbs and adverbs are rather common words to most of the wines. In our model we apply a filter that leaves nouns and adjectives in the text and removes anything else.</p>
+<p>The POS tagging, lemmatizing and type selecting is carried out by the <em>LemmaTokenizer</em> class.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># list of word types (nouns and adjectives) to leave in the text</span>
@@ -560,25 +681,213 @@ Sommelier_Algorithm
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch2.3"></a></p>
+<h2 id="2.3.-Label-encoding">2.3. Label encoding<a class="anchor-link" href="#2.3.-Label-encoding">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Although, we are mainly interested in classification by using text based description, from the database we can see that there are other, possible helpful features of the wine, that can help to classify. Such features are <em>body</em> and <em>colour</em>. Both of them are used by sommeliers to describe a wine. Colour can be easily observed while body is reflecting in a way the acidity of a wine.</p>
+<p>These columns in the database are defined in text format, so we have to turn them into numbers so that the computer can understand them. Both of these features have discreate value, so we could just easily attach a number to them like: <em>red=1</em>, <em>rose=2</em>, <em>white=3</em>. This is called <a href="https://medium.com/@contactsunny/label-encoder-vs-one-hot-encoder-in-machine-learning-3fc273365621">label encoding</a> [<a href="#ch7">8</a>]. This would not be a disastrous approach, but the classifier might think there there is a trend like tendency between these categories (because of the increase in numbers), which is obviously false. Instead, sticking to the case of colours, we create three more columns (there are three colours), each representing one colour. Each column can take two values, 0 (if the wine does not have that feature) and 1 (if the wine has that feature). We do this for both the body and colour columns with the <em>pandas</em> get_dummies method.</p>
+<p>The following cell prints an example of the modified data set that contains the encoded labels.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">body_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">])</span>
-<span class="n">colour_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;colour&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">body_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;Body&#39;</span><span class="p">])</span>       <span class="c1"># label encoding the Body column</span>
+<span class="n">colour_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="s1">&#39;colour&#39;</span><span class="p">])</span>   <span class="c1"># label encoding the colour column</span>
+<span class="c1"># adding the body labels to the original dataset</span>
 <span class="n">data_input</span> <span class="o">=</span> <span class="n">data_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">body_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># adding the colour labels to the original dataset</span>
 <span class="n">data_input</span> <span class="o">=</span> <span class="n">data_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">colour_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_input</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[10]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>abv</th>
+      <th>colour</th>
+      <th>country</th>
+      <th>description</th>
+      <th>grape_variety</th>
+      <th>name</th>
+      <th>Body</th>
+      <th>dry</th>
+      <th>full</th>
+      <th>light</th>
+      <th>medium</th>
+      <th>red</th>
+      <th>rose</th>
+      <th>white</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>13.5</td>
+      <td>red</td>
+      <td>USA</td>
+      <td>this wine has concentrated depth and purity of...</td>
+      <td>pinot noir</td>
+      <td>A to Z Pinot Noir 2014</td>
+      <td>light</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>13.5</td>
+      <td>red</td>
+      <td>Argentina</td>
+      <td>a delicate, floral wine with soft cherry and s...</td>
+      <td>pinot noir</td>
+      <td>Alamos Seleccion Pinot Noir 2016</td>
+      <td>medium</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>12.5</td>
+      <td>red</td>
+      <td>Italy</td>
+      <td>a medium-bodied wine, with aromas and flavours...</td>
+      <td>pinot noir</td>
+      <td>Alois Lageder Alto Adige Pinot Noir 2014</td>
+      <td>medium</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>13.5</td>
+      <td>white</td>
+      <td>Italy</td>
+      <td>very fresh aromas and flavours of gooseberry a...</td>
+      <td>sauvignon blanc</td>
+      <td>Alois Lageder Terlaner Sauvignon Blanc 2016</td>
+      <td>medium</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>13.0</td>
+      <td>white</td>
+      <td>Argentina</td>
+      <td>this lightly oaked wine offers aromas of ripe ...</td>
+      <td>chardonnay</td>
+      <td>Argento Chardonnay 2015</td>
+      <td>medium</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch2.4"></a></p>
+<h2 id="2.4.-Splitting-data-into-train-and-test-sets">2.4. Splitting data into train and test sets<a class="anchor-link" href="#2.4.-Splitting-data-into-train-and-test-sets">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As we have already mentioned the analysis in <a href="#ch7">4,6</a> were performed on a preselected train dataset from the whole database. We will use exactly the same train dataset to train our model. This is easy to do by setting the <em>random_state</em> argument to the same value as it was in those studies. Also, we only select the columns of description, labelled colours and labelled bodies. The <em>train_test_split</em> function will create train and test features and targets.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># split the data into train and test</span>
@@ -596,7 +905,189 @@ Sommelier_Algorithm
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[14]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Body</th>
+      <th>description</th>
+      <th>full</th>
+      <th>light</th>
+      <th>medium</th>
+      <th>dry</th>
+      <th>red</th>
+      <th>rose</th>
+      <th>white</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>229</th>
+      <td>medium</td>
+      <td>as seen on tv.the belen estate in chile 's cas...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>257</th>
+      <td>dry</td>
+      <td>this classic displays elements of gooseberry ,...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>260</th>
+      <td>dry</td>
+      <td>' quest to create an australian rival to the t...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>full</td>
+      <td>are dedicated to showcasing the wide range of ...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>193</th>
+      <td>dry</td>
+      <td>made from a of the best grapes grown throughou...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>229         pinot noir
+257    sauvignon blanc
+260         chardonnay
+210              syrah
+193    sauvignon blanc
+Name: grape_variety, dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch2.5"></a></p>
+<h2 id="2.5.-Defining-selectors">2.5. Defining selectors<a class="anchor-link" href="#2.5.-Defining-selectors">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will build up a <a href="https://medium.com/@yanhann10/a-brief-view-of-machine-learning-pipeline-in-python-5f50b941fca8">pipeline</a> for this study. In a pipeline we chain together all kind of actions on the data into one stable flow. For example it combines data transformers (numerical normaliser) with data estimators (Naive Bayes classifier).</p>
+<p>The input data has both text based and numerical features. They cannot be processed together by the classifier unless they are transformed into the same format, in this case numerical format. We aim to construct a pipeline that takes care of all these issues.</p>
+<p>We define two classes where one of them will select the text based column from the input, the other will select the numerical input.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TextSelector</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
@@ -611,6 +1102,7 @@ Sommelier_Algorithm
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="c1"># returns the input as a string</span>
         <span class="k">return</span> <span class="n">X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
     
 <span class="k">class</span> <span class="nc">NumberSelector</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
@@ -625,6 +1117,7 @@ Sommelier_Algorithm
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="c1"># returns the input as a dataframe</span>
         <span class="k">return</span> <span class="n">X</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]]</span>
 </pre></div>
 
@@ -633,12 +1126,81 @@ Sommelier_Algorithm
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch2.6"></a></p>
+<h2 id="2.6.-Defining-data-pre-processors-and-pipelines">2.6. Defining data pre-processors and pipelines<a class="anchor-link" href="#2.6.-Defining-data-pre-processors-and-pipelines">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As mentioned before, text based data cannot be used by the classifier. Therefore, we create a vectorizer that takes a string input and turns it into a vector of numbers.</p>
+<p>We will use the <a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidfVectorizer</a> with 1-grams of words, the predifined stopwords and LemmaTokenizer as helping tools. Tf-idf applies the bag-of-words concept, which creates a vocabulary (list of all the terms from the string) and maps a value to them. In the case of tf-idf this value is roughly the product of the term frequency (the number of times a term occured within the document string) and the inverse document frequency (the inverse of the the number of documents that this term is present). Basically, the first term emphasizes the terms that are frequent in one document while weighs down the terms that are frequent over several documents. The reason for the latter is that if a word is used in many documents it is unlikely that it has characteristic meaning to one topic. For more on this read the relevant sections in <a href="https://diveki.github.io/projects/wine/tfidf.html">Application of Tfidf-vectorizer on wine data</a>.</p>
+<p>Let us define the vectorizer.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">full</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vec_tdidf</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">stop_words</span><span class="o">=</span><span class="n">stop_words</span><span class="p">,</span> <span class="n">analyzer</span><span class="o">=</span><span class="s1">&#39;word&#39;</span><span class="p">,</span> 
+                                               <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">LemmaTokenizer</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now let us combine the text vectorizer with the text selector into one pipeline.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">TextSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s1">&#39;vectorizer&#39;</span><span class="p">,</span> <span class="n">vec_tdidf</span><span class="p">)</span>
+                <span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Just as in the previous sell let us put the numeric selectors into pipelines too.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># pipelines of body features</span>
+<span class="n">full</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
                 <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)),</span>
                 <span class="p">])</span>
 <span class="n">medium</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
@@ -650,6 +1212,8 @@ Sommelier_Algorithm
 <span class="n">dry</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
                 <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;dry&#39;</span><span class="p">)),</span>
                 <span class="p">])</span>
+
+<span class="c1">#pipelines of colour features</span>
 <span class="n">red</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
                 <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">NumberSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)),</span>
                 <span class="p">])</span>
@@ -666,26 +1230,18 @@ Sommelier_Algorithm
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-                <span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span> <span class="n">TextSelector</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)),</span>
-                <span class="p">(</span><span class="s1">&#39;vectorizer&#39;</span><span class="p">,</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">stop_words</span><span class="o">=</span><span class="n">stop_words</span><span class="p">,</span> <span class="n">analyzer</span><span class="o">=</span><span class="s1">&#39;word&#39;</span><span class="p">,</span> 
-                                               <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">LemmaTokenizer</span><span class="p">()))</span>
-                <span class="p">])</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally let us combine all these pipelines. Note, that to combine different features one has to use the <a href="http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html">FeatureUnion</a> class. Now we have all methods of transformation and pre-processing put into one variable.</p>
 
 </div>
 </div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">feats</span> <span class="o">=</span> <span class="n">FeatureUnion</span><span class="p">([(</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">full</span><span class="p">),</span>
@@ -704,16 +1260,77 @@ Sommelier_Algorithm
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch2.7"></a></p>
+<h2 id="2.7.-Defining-classiffiers">2.7. Defining classiffiers<a class="anchor-link" href="#2.7.-Defining-classiffiers">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The last step in our pipeline is to define a classifier. Our first choice of classifier is the <a href="https://en.wikipedia.org/wiki/Random_forest">Random Forest</a>. It is an ensemble classifier of decision trees and it tends to be more accurate than a single decision tree classifier. It is very versatile in application and fit to determine which features are giving the most contribution to good prediction (although we will not use this feature here).</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now let us put this classifier in the pipeline to combine it with the feature union and then we are ready to go and do blind tasting.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;feats&#39;</span><span class="p">,</span> <span class="n">feats</span><span class="p">),</span>
-                 <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+                 <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span><span class="n">clf</span><span class="p">)</span>
                  <span class="p">])</span>
     
-<span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch3"></a></p>
+<h1 id="3.-Train-and-test-the-model">3. Train and test the model<a class="anchor-link" href="#3.-Train-and-test-the-model">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -738,7 +1355,7 @@ Sommelier_Algorithm
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[13]:</div>
+<div class="prompt output_prompt">Out[31]:</div>
 
 
 
@@ -755,9 +1372,18 @@ Sommelier_Algorithm
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch3.1"></a></p>
+<h2 id="3.1.-Analysis-of-train-predictions">3.1. Analysis of train predictions<a class="anchor-link" href="#3.1.-Analysis-of-train-predictions">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#train stats</span>
@@ -817,9 +1443,18 @@ Counter({&#39;chardonnay&#39;: 58, &#39;sauvignon blanc&#39;: 55, &#39;pinot noi
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch3.2"></a></p>
+<h2 id="3.2.-Analysis-of-test-predictions">3.2. Analysis of test predictions<a class="anchor-link" href="#3.2.-Analysis-of-test-predictions">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># test stats</span>
@@ -878,6 +1513,33 @@ Counter({&#39;chardonnay&#39;: 33, &#39;sauvignon blanc&#39;: 21, &#39;pinot noi
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch3.3"></a></p>
+<h2 id="3.3.-Testing-with-different-classifiers">3.3. Testing with different classifiers<a class="anchor-link" href="#3.3.-Testing-with-different-classifiers">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="3.4"></a></p>
+<h2 id="3.4.-Hyperparameter-tuning">3.4. Hyperparameter tuning<a class="anchor-link" href="#3.4.-Hyperparameter-tuning">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="3.5"></a></p>
+<h2 id="3.5.-Kfold-verification">3.5. Kfold verification<a class="anchor-link" href="#3.5.-Kfold-verification">&#182;</a></h2>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1045,7 +1707,8 @@ Mean: 0.7486348997218562
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Kaggle-database">Kaggle database<a class="anchor-link" href="#Kaggle-database">&#182;</a></h1>
+<p><a id="ch4"></a></p>
+<h1 id="4.-Classification-of-data-from-Kaggle">4. Classification of data from Kaggle<a class="anchor-link" href="#4.-Classification-of-data-from-Kaggle">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -1134,6 +1797,15 @@ Mean: 0.7486348997218562
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch4.1"></a></p>
+<h2 id="4.1.-Data-formatting">4.1. Data formatting<a class="anchor-link" href="#4.1.-Data-formatting">&#182;</a></h2>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1288,6 +1960,15 @@ Mean: 0.7486348997218562
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch4.2"></a></p>
+<h2 id="4.2.-Classification">4.2. Classification<a class="anchor-link" href="#4.2.-Classification">&#182;</a></h2>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1487,6 +2168,15 @@ Mean: 0.842944263324109
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch5"></a></p>
+<h1 id="5.-Cross-data-validation-of-the-model">5. Cross-data validation of the model<a class="anchor-link" href="#5.-Cross-data-validation-of-the-model">&#182;</a></h1>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1950,6 +2640,15 @@ Mean: 0.8660962570224343
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="ch6"></a></p>
+<h1 id="6.-Conclusion">6. Conclusion<a class="anchor-link" href="#6.-Conclusion">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Do not be impatient... Updates are coming soon to this page. In the meanwhile please feel free to contact me at <a href="diveki@gmail.com">diveki@gmail.com</a>. You can also fork this project from <a href="https://github.com/diveki/WineSommelier">my GitHub repository</a> or you can take a sneaky look at <a href="https://diveki.github.io">my GitHub Pages website</a>.</p>
 <p>Just as a bonus, the prelude for this report can be found <a href="https://diveki.github.io/projects/wine.html">here</a>.</p>
 
@@ -1968,6 +2667,8 @@ Mean: 0.8660962570224343
 <li>Become a sommelier - <a href="https://diveki.github.io/projects/wine/wine.html">https://diveki.github.io/projects/wine/wine.html</a></li>
 <li>Kagge Wine Review - <a href="https://www.kaggle.com/zynicide/wine-reviews">https://www.kaggle.com/zynicide/wine-reviews</a></li>
 <li>Application of TfIdf-vectorizer on wine data - <a href="https://diveki.github.io/projects/wine/tfidf.html">https://diveki.github.io/projects/wine/tfidf.html</a></li>
+<li>Lemmatization - <a href="https://en.wikipedia.org/wiki/Lemmatisation">https://en.wikipedia.org/wiki/Lemmatisation</a></li>
+<li>Label encoding - <a href="https://medium.com/@contactsunny/label-encoder-vs-one-hot-encoder-in-machine-learning-3fc273365621">https://medium.com/@contactsunny/label-encoder-vs-one-hot-encoder-in-machine-learning-3fc273365621</a></li>
 </ol>
 
 </div>
