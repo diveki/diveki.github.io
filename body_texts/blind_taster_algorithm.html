@@ -1,15 +1,13 @@
 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Algorithms-blind-tasting-wines">Algorithms blind tasting wines<a class="anchor-link" href="#Algorithms-blind-tasting-wines">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><em>In this study we present a simple application of Natural Language Processing to classifying grape types based on semi-professional text based description of a glass of wine. We build a classifier model with pipelines and test it through two different datasets. A part of one of the datasets was involved through the building of the concept while the other is a completely out of sample data source. We present classification results of 4 different grape types with an accuracy above 85% which is in our view quite remarkable concerning the simplicity of the model.</em></p>
 
@@ -17,8 +15,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Important note: This is purely driven by sel-interest. None of the mentioned entities gave financial nor other type of support. Feel free to copy and distribute this work or give remarks or suggestions.</strong></p>
 
@@ -26,8 +23,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Wine is one of the most popular alcohols that is being produced. Its production, selling and understanding has several thousands of years of expertise. A big industry has developed around producing the wine but also around describing it. The latter is very important since wine comes in different colour, taste, smell etc. It is important to describe these features of a bottle to customers because almost all of us enjoy different aspects of a glass of wine. The people who describe the wine are called wine experts or sommeliers [<a href="#ch7">1</a>].</p>
 <p>One has to be gifted with good genetics to be able to sense and identify numerous different smells and tastes and have enough lexical knowledge to map these features to his database of wine features. This way they can tell only from sampling a glass of wine what grape was used to make it, in which country was it made, what year and maybe some more. This is an amazing skill to have, but it requires years of practice (hopefully without getting drunk). There are schools, like the <a href="https://www.wsetglobal.com/">Wine and Spirit Education Trust</a> [<a href="#ch7">2</a>] where you can practice these skills and learn a framework to do blind tasting. They have their own terminology to describe certain wine features like: full-budied, oaky, dry, grassy etc. (see [<a href="#ch7">3</a>] for a more complete list).</p>
@@ -41,8 +37,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
 <li><a href="#ch1">Loading data</a></li>
@@ -77,8 +72,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch1"></a></p>
 <h1 id="1.-Loading-data">1. Loading data<a class="anchor-link" href="#1.-Loading-data">&#182;</a></h1>
@@ -86,8 +80,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We start by loading all the required packages and data to solve the above described task. Most of the details about these steps are described in <a href="https://diveki.github.io/projects/wine/wine.html">Become a sommelier</a> and <a href="https://diveki.github.io/projects/wine/tfidf.html">Application of Tfidf-vectorizer on wine data</a>.</p>
 <p>We start by loading <em>pandas, numpy, re, scikit-learn</em> and <em>nltk</em> packages.</p>
@@ -129,14 +122,13 @@
 <span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span> <span class="n">punctuation</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Then we load the wine data set that we scraped online. For the details about this data set see the Appendix of <a href="https://diveki.github.io/projects/wine/wine.html">Become a sommelier</a>.</p>
 
@@ -154,7 +146,7 @@
 <span class="n">a0</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -164,7 +156,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
@@ -259,8 +251,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This data set contains all kinds of information about 5 grape types. We will use only 4 of the grape types, since the 5th does not have many samples. These 4 types are: <em>pinot noir, syrah</em> (red wines) and <em>chardonnay, sauvignon blanc</em> (white wines). By setting a limit to the minimum sample size we filter the input data.</p>
 
@@ -280,7 +271,7 @@
 <span class="n">data_input</span> <span class="o">=</span> <span class="n">a0</span><span class="p">[</span><span class="n">a0</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">varieties</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -293,7 +284,7 @@
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_input</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -303,7 +294,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[4]:</div>
+    <div class="prompt output_prompt">Out[4]:</div>
 
 
 
@@ -404,8 +395,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>From this dataframe we will only use some of the features. The columns description and colour are the most important ones, but in the our first implementation we will add the Body feature as an input too. Let us see an example what does the code face in the descripiton column and extract reliable information in order to be able to classify grape types.</p>
 
@@ -420,7 +410,7 @@
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_input</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -430,7 +420,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[5]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -446,8 +436,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch2"></a></p>
 <h1 id="2.-Model-definition">2. Model definition<a class="anchor-link" href="#2.-Model-definition">&#182;</a></h1>
@@ -455,8 +444,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As we showed in <a href="https://diveki.github.io/projects/wine/tfidf.html">Application of Tfidf-vectorizer on wine data</a> in order to classify the grape types correctly, the processed input data for one grape should not correlate with other grape types. The applied model has to minimize this correlation. We did not perform an exact optimization process but rather added newer features to the model step-by-step and investigated what happens with the correlation. All the features presented here are the result of the mentioned study, so for details please go and read it. Some of the steps presented below are not discussed in that study, therefore we will elaborate them more.</p>
 <p>Our model will be a very simple vectorized 1-gramm bag-of-words model. We will rely on term frequency - inverse document frequency (tf-idf) vectorization and some additional noise filters and word processors.</p>
@@ -465,8 +453,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch2.1"></a></p>
 <h2 id="2.1.-Stopwords">2.1. Stopwords<a class="anchor-link" href="#2.1.-Stopwords">&#182;</a></h2>
@@ -474,8 +461,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As you can see above, there are words in the description column that are certainly not adding any information about the grape type, like <em>with, and, by</em> etc. We can collect a list of these kind of words and call them stopwords. These will be filtered out from the text and not taken into account in the classification process. We will exploit the <em>nltk</em> package's stopwords and extend it with some words and punctuations defined by us.</p>
 
@@ -493,14 +479,13 @@
 <span class="n">stop_words1</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">stop_words</span> <span class="o">+</span> <span class="n">stop_append</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch2.2"></a></p>
 <h2 id="2.2.-POS-tagging-and-Lemmatizing">2.2. POS tagging and Lemmatizing<a class="anchor-link" href="#2.2.-POS-tagging-and-Lemmatizing">&#182;</a></h2>
@@ -508,8 +493,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The text we want to analyse may contain the same word in different forms. A very simple example would be <em>cherry</em> and <em>cherries</em> the singular and plural version of the same word. Another example could be <em>good</em> and <em>better</em>. In their original form, these words are treated as separete ones by the code. To bring them to their common form we apply <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatization</a> [<a href="#ch7">7</a>]. This is a very difficult task since it requires correct identification of the word (noun, verb etc.) type in the context. The latter is position tagging or POS tagging. We use <em>nltk</em>'s pos tagger, but as any other tagger this is not perfect neither.</p>
 <p>The most information of a wine description is carried in its nouns and adjectives. Verbs and adverbs are rather common words to most of the wines. In our model we apply a filter that leaves nouns and adjectives in the text and removes anything else.</p>
@@ -582,14 +566,13 @@
         <span class="k">return</span> <span class="n">doc</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch2.3"></a></p>
 <h2 id="2.3.-Label-encoding">2.3. Label encoding<a class="anchor-link" href="#2.3.-Label-encoding">&#182;</a></h2>
@@ -597,8 +580,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Although, we are mainly interested in classification by using text based description, from the database we can see that there are other, possible helpful features of the wine, that can help to classify. Such features are <em>body</em> and <em>colour</em>. Both of them are used by sommeliers to describe a wine. Colour can be easily observed while body is reflecting in a way the acidity of a wine.</p>
 <p>These columns in the database are defined in text format, so we have to turn them into numbers so that the computer can understand them. Both of these features have discreate value, so we could just easily attach a number to them like: <em>red=1</em>, <em>rose=2</em>, <em>white=3</em>. This is called <a href="https://medium.com/@contactsunny/label-encoder-vs-one-hot-encoder-in-machine-learning-3fc273365621">label encoding</a> [<a href="#ch7">8</a>]. This would not be a disastrous approach, but the classifier might think there there is a trend like tendency between these categories (because of the increase in numbers), which is obviously false. Instead, sticking to the case of colours, we create three more columns (there are three colours), each representing one colour. Each column can take two values, 0 (if the wine does not have that feature) and 1 (if the wine has that feature). We do this for both the body and colour columns with the <em>pandas</em> get_dummies method.</p>
@@ -621,7 +603,7 @@
 <span class="n">data_input</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -631,7 +613,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[8]:</div>
+    <div class="prompt output_prompt">Out[8]:</div>
 
 
 
@@ -774,8 +756,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch2.4"></a></p>
 <h2 id="2.4.-Splitting-data-into-train-and-test-sets">2.4. Splitting data into train and test sets<a class="anchor-link" href="#2.4.-Splitting-data-into-train-and-test-sets">&#182;</a></h2>
@@ -783,8 +764,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As we have already mentioned the analysis in <a href="#ch7">4,6</a> were performed on a preselected train dataset from the whole database. We will use exactly the same train dataset to train our model. This is easy to do by setting the <em>random_state</em> argument to the same value as it was in those studies. Also, we only select the columns of description, labelled colours and labelled bodies. The <em>train_test_split</em> function will create train and test features and targets.</p>
 
@@ -804,7 +784,7 @@
                                                     <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -817,7 +797,7 @@
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -827,7 +807,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[10]:</div>
+    <div class="prompt output_prompt">Out[10]:</div>
 
 
 
@@ -941,7 +921,7 @@
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">y_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -951,7 +931,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[11]:</div>
+    <div class="prompt output_prompt">Out[11]:</div>
 
 
 
@@ -972,8 +952,7 @@ Name: grape_variety, dtype: object</pre>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch2.5"></a></p>
 <h2 id="2.5.-Defining-selectors">2.5. Defining selectors<a class="anchor-link" href="#2.5.-Defining-selectors">&#182;</a></h2>
@@ -981,8 +960,7 @@ Name: grape_variety, dtype: object</pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We will build up a <a href="https://medium.com/@yanhann10/a-brief-view-of-machine-learning-pipeline-in-python-5f50b941fca8">pipeline</a> for this study. In a pipeline we chain together all kind of actions on the data into one stable flow. For example it combines data transformers (numerical normaliser) with data estimators (Naive Bayes classifier).</p>
 <p>The input data has both text based and numerical features. They cannot be processed together by the classifier unless they are transformed into the same format, in this case numerical format. We aim to construct a pipeline that takes care of all these issues.</p>
@@ -1027,14 +1005,13 @@ Name: grape_variety, dtype: object</pre>
         <span class="k">return</span> <span class="n">X</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch2.6"></a></p>
 <h2 id="2.6.-Defining-data-pre-processors-and-pipelines">2.6. Defining data pre-processors and pipelines<a class="anchor-link" href="#2.6.-Defining-data-pre-processors-and-pipelines">&#182;</a></h2>
@@ -1042,8 +1019,7 @@ Name: grape_variety, dtype: object</pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As mentioned before, text based data cannot be used by the classifier. Therefore, we create a vectorizer that takes a string input and turns it into a vector of numbers.</p>
 <p>We will use the <a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidfVectorizer</a> with 1-grams of words, the predifined stopwords and LemmaTokenizer as helping tools. Tf-idf applies the bag-of-words concept, which creates a vocabulary (list of all the terms from the string) and maps a value to them. In the case of tf-idf this value is roughly the product of the term frequency (the number of times a term occured within the document string) and the inverse document frequency (the inverse of the the number of documents that this term is present). Basically, the first term emphasizes the terms that are frequent in one document while weighs down the terms that are frequent over several documents. The reason for the latter is that if a word is used in many documents it is unlikely that it has characteristic meaning to one topic. For more on this read the relevant sections in <a href="https://diveki.github.io/projects/wine/tfidf.html">Application of Tfidf-vectorizer on wine data</a>.</p>
@@ -1061,14 +1037,13 @@ Name: grape_variety, dtype: object</pre>
                                                <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">LemmaTokenizer</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now let us combine the text vectorizer with the text selector into one pipeline.</p>
 
@@ -1086,14 +1061,13 @@ Name: grape_variety, dtype: object</pre>
                 <span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Just as in the previous sell let us put the numeric selectors into pipelines too.</p>
 
@@ -1131,14 +1105,13 @@ Name: grape_variety, dtype: object</pre>
                 <span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Finally let us combine all these pipelines. Note, that to combine different features one has to use the <a href="http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html">FeatureUnion</a> class. Now we have all methods of transformation and pre-processing put into one variable.</p>
 
@@ -1161,14 +1134,13 @@ Name: grape_variety, dtype: object</pre>
                       <span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch2.7"></a></p>
 <h2 id="2.7.-Defining-classiffiers">2.7. Defining classiffiers<a class="anchor-link" href="#2.7.-Defining-classiffiers">&#182;</a></h2>
@@ -1176,8 +1148,7 @@ Name: grape_variety, dtype: object</pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The last step in our pipeline is to define a classifier. Our first choice of classifier is the <a href="https://en.wikipedia.org/wiki/Random_forest">Random Forest</a>. It is an ensemble classifier of decision trees and it tends to be more accurate than a single decision tree classifier. It is very versatile in application and fit to determine which features are giving the most contribution to good prediction (although we will not use this feature here).</p>
 
@@ -1192,14 +1163,13 @@ Name: grape_variety, dtype: object</pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now let us put this classifier in the pipeline to combine it with the feature union and then we are ready to go and do blind tasting.</p>
 
@@ -1216,14 +1186,13 @@ Name: grape_variety, dtype: object</pre>
                  <span class="p">])</span>    
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch3"></a></p>
 <h1 id="3.-Train-and-test-the-model">3. Train and test the model<a class="anchor-link" href="#3.-Train-and-test-the-model">&#182;</a></h1>
@@ -1231,8 +1200,7 @@ Name: grape_variety, dtype: object</pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We have arrived to the point where we can train our model with the train data set. To do that we call the <em>fit</em> method of the <em>pipe</em> object. Since this database is not really big, this training does not take a lot of time, while you should keep in mind if you have millions of inputs, your training might take a considerable amount of time.</p>
 
@@ -1247,7 +1215,7 @@ Name: grape_variety, dtype: object</pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> pipe.fit(X_train, y_train)
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1257,7 +1225,7 @@ Name: grape_variety, dtype: object</pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1271,8 +1239,7 @@ Name: grape_variety, dtype: object</pre>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>With the <code>%timeit</code> magic command you can measure how long does it take to run one line of code. In this case it took about 1 second to run it.</p>
 
@@ -1280,8 +1247,7 @@ Name: grape_variety, dtype: object</pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch3.1"></a></p>
 <h2 id="3.1.-Analysis-of-train-predictions">3.1. Analysis of train predictions<a class="anchor-link" href="#3.1.-Analysis-of-train-predictions">&#182;</a></h2>
@@ -1289,8 +1255,7 @@ Name: grape_variety, dtype: object</pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now let us see the performance of this trained model. Let us first investigate how good the model is at classifying grape types in the train data set. This is actually a completely in-sample measurement. We expect it to be good.</p>
 <p>We define a function to print out all kinds of statistics on the performance, since we will use this a lot.</p>
@@ -1321,14 +1286,13 @@ Name: grape_variety, dtype: object</pre>
     
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We will print out the <a href="http://scikit-learn.org/stable/modules/model_evaluation.html#accuracy-score">accuracy</a>, the <a href="http://scikit-learn.org/stable/modules/model_evaluation.html#classification-report">classification report</a> and the <a href="http://scikit-learn.org/stable/modules/model_evaluation.html#confusion-matrix">confusion matrix</a>.</p>
 <p>Accuracy is the number of correctly predicted grape types divided by the total number of grapes.</p>
@@ -1348,7 +1312,7 @@ Name: grape_variety, dtype: object</pre>
 <span class="n">print_stats</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1358,7 +1322,7 @@ Name: grape_variety, dtype: object</pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1382,7 +1346,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1400,8 +1364,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Well this model does a perfect job on the train data set. We kind of expect it to do, since it was trained on it. However we are still amazed that the vectorization of the text combined with body and colour description is capable to perfectly differentiate all the train input grape types. Let us turn now to the test set.</p>
 
@@ -1409,8 +1372,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch3.2"></a></p>
 <h2 id="3.2.-Analysis-of-test-predictions">3.2. Analysis of test predictions<a class="anchor-link" href="#3.2.-Analysis-of-test-predictions">&#182;</a></h2>
@@ -1418,8 +1380,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As we have mentioned earlier, this test data was never used with respect to the model. It is the first time that the model sees it. The target sample sizes are not big.</p>
 
@@ -1436,7 +1397,7 @@ Confusion matrix
 <span class="n">print_stats</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1446,7 +1407,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1470,7 +1431,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1488,8 +1449,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The accuracy is 74%. We have expected to have false positive and false negative scores, but a surprising observation is that even though we explicitly tell the classifier what colour the wine has it is still able to confuse red with white wines and vice versa. In order to decide wether this result is rather good or bad, we establish a benchmark and also try out other classifiers.</p>
 
@@ -1497,8 +1457,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch3.3"></a></p>
 <h2 id="3.3.-Testing-with-different-classifiers">3.3. Testing with different classifiers<a class="anchor-link" href="#3.3.-Testing-with-different-classifiers">&#182;</a></h2>
@@ -1506,8 +1465,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>First, we establish a reference classification outcome. We do it by creating a classifier that generates random predictions by respecting the training set target feature distribution (since not all the grape types are equally represented).</p>
 
@@ -1529,7 +1487,7 @@ Confusion matrix
 <span class="n">print_stats</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1539,7 +1497,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1564,7 +1522,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1582,8 +1540,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Well a random stratified classifier achieves 29% accuracy. Our first try with the Random Forest classifier was clearly way better. Now let us look at one of the most used ensemble booster classifier, the XGBClassifier from <a href="https://xgboost.readthedocs.io/en/latest/python/python_api.html">xgboost</a> package. Gradient boosting sequentially adds predictors and corrects previous models. The classifier fits the new model to new residuals of the previous prediction and then minimizes the loss when adding the latest prediction.</p>
 
@@ -1605,7 +1562,7 @@ Confusion matrix
 <span class="n">print_stats</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1615,7 +1572,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1626,7 +1583,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -1638,7 +1595,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1662,7 +1619,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1680,8 +1637,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Without any adjustment it improves the accuracy by 10% and all the other metrics compared to the Random Forest classifier. However, this is a slower method to apply.</p>
 <p>One would say that let us stick to the XGBClassifier, but it turned out (we will not present it here, but you can check it by running the codes) when we go to the larger Kaggle data base, the difference between XGBClassifier and RandomForest classifier disappears (and actually the latter gives slightly better results by roughly 2%). This statement assumes default settings for both classifiers which does not give necessarily a good reference to compare the two classifiers.</p>
@@ -1691,8 +1647,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch3.4"></a></p>
 <h2 id="3.4.-Hyperparameter-tuning">3.4. Hyperparameter tuning<a class="anchor-link" href="#3.4.-Hyperparameter-tuning">&#182;</a></h2>
@@ -1700,8 +1655,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There are a certain number of parameters that can be adjusted to improve the performance of a classifier. This is hyperparameter tuning. We will improve the Random Forest classifier by using a grid search techinque over the predefined parameter values and apply <a href="http://scikit-learn.org/stable/modules/cross_validation.html#cross-validation">cross validation</a>. All this can be done with the <em>GridSearchCV</em> class. Cross validation is basically a k-fold technique, where for example we split our data into $M$ equal pieces and assign the first $M-k$ to be the train set and the last $k$ set to be the test. In the next round we choose another <em>k</em> piece to be the test and the rest to be the train. We can repeat this several times and take statistics over the outcome. The train and test sets never overlap.</p>
 <p>We have observed that by chosing the right amount of features (in our case the <em>max_features</em> argument) we can imporve the accuracy by a lot (above 80%). Below we will show how to obtimize the max_features and the number of estimators (the number of trees created in the Random Forest calculation process). We will use multiprocessing too (check if your operation system supports it). Also there are other parameters like, <em>max_depth</em> and <em>min_samples_leaf</em> that you can optimize if you uncomment them. We will perform 3 cross validations.</p>
@@ -1737,7 +1691,7 @@ Confusion matrix
 <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1747,7 +1701,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[25]:</div>
+    <div class="prompt output_prompt">Out[25]:</div>
 
 
 
@@ -1771,8 +1725,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let us first see the accuracy measures on the test sets of the cross validation:</p>
 
@@ -1787,7 +1740,7 @@ Confusion matrix
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">grid_search</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1797,7 +1750,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[26]:</div>
+    <div class="prompt output_prompt">Out[26]:</div>
 
 
 
@@ -1814,8 +1767,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There were 9 combinations of the input parameters, therefore there are 9 accuracies. All of them are above 80% meaning basically any pair of the input parameters would do a good job.</p>
 <p>However let us check the best parameter combination:</p>
@@ -1831,7 +1783,7 @@ Confusion matrix
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_params_</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1841,7 +1793,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[27]:</div>
+    <div class="prompt output_prompt">Out[27]:</div>
 
 
 
@@ -1857,8 +1809,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that we have the best parameters, let us create a classifier with these inputs:</p>
 
@@ -1873,14 +1824,13 @@ Confusion matrix
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">clf_opt</span><span class="o">=</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let us verify the parameters this classifier use, just to make sure we really use what we intended:</p>
 
@@ -1895,7 +1845,7 @@ Confusion matrix
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">clf_opt</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;clf&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1905,7 +1855,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[29]:</div>
+    <div class="prompt output_prompt">Out[29]:</div>
 
 
 
@@ -1937,8 +1887,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Indeed, we have the right input parameters. Let us now train it and test it on our data set.</p>
 
@@ -1954,7 +1903,7 @@ Confusion matrix
 <span class="n">preds</span> <span class="o">=</span> <span class="n">clf_opt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1967,7 +1916,7 @@ Confusion matrix
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_stats</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">clf_opt</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1977,7 +1926,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2001,7 +1950,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2019,8 +1968,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our accuracy increased from 74% to 89%. We can see that the number of false positives and negatives has dropped a lot. Precision, recall and the f1-score are all close to 0.90. The cross wine colour misclassification has decreased too. This is a great improvement.</p>
 
@@ -2028,8 +1976,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch4"></a></p>
 <h1 id="4.-Classification-of-data-from-Kaggle">4. Classification of data from Kaggle<a class="anchor-link" href="#4.-Classification-of-data-from-Kaggle">&#182;</a></h1>
@@ -2037,8 +1984,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As we have already meantioned we came accross a <a href="https://www.kaggle.com/">Kaggle</a> <a href="https://www.kaggle.com/zynicide/wine-reviews">Wine Reviews</a> [<a href="#ch7">5</a>] wine description database by <em>zackthoutt</em>. It is much larger than the database we constructed and comes from completely different source. Therefore, verifying if our classification process works even on this database would be an ideal out of sample test.</p>
 <p>We will do 3 things. First, we apply the whole procedure we developed earlier on this database and hope to have good results. Second, we will use the Kaggle database as the train set to fit our model (since this is the larger set) and use our database as the test set. This would be a cross database check of our model which if it works proves the validity of the model. Finally, since the Kaggle database is huge we are not restricted to select only 4 or 5 grape types to classify. We will enlarge our target features, but not to the whole database.</p>
@@ -2063,7 +2009,7 @@ Confusion matrix
 <span class="n">kaggle</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2073,7 +2019,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[45]:</div>
+    <div class="prompt output_prompt">Out[45]:</div>
 
 
 
@@ -2138,8 +2084,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch4.1"></a></p>
 <h2 id="4.1.-Data-formatting">4.1. Data formatting<a class="anchor-link" href="#4.1.-Data-formatting">&#182;</a></h2>
@@ -2147,8 +2092,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Below you can see a few steps of preprocessing.</p>
 
@@ -2168,7 +2112,7 @@ Confusion matrix
         <span class="k">return</span> <span class="n">ss</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2181,7 +2125,7 @@ Confusion matrix
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">kaggle</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kaggle</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">shiraz_filter</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2195,7 +2139,7 @@ Confusion matrix
 <span class="n">kaggle</span> <span class="o">=</span> <span class="n">kaggle</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2210,7 +2154,7 @@ Confusion matrix
 <span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">grape_variety</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2220,7 +2164,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[49]:</div>
+    <div class="prompt output_prompt">Out[49]:</div>
 
 
 
@@ -2245,7 +2189,7 @@ Confusion matrix
 <span class="n">colour_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;pinot noir&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;syrah&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;chardonnay&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;sauvignon blanc&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">}</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2260,14 +2204,13 @@ Confusion matrix
 <span class="n">kaggle_input</span> <span class="o">=</span> <span class="n">kaggle_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">colour_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create the train and test sets.</p>
 
@@ -2287,14 +2230,13 @@ Confusion matrix
                                                     <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch4.2"></a></p>
 <h2 id="4.2.-Classification">4.2. Classification<a class="anchor-link" href="#4.2.-Classification">&#182;</a></h2>
@@ -2302,8 +2244,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let us create the corresponding pipeline with the colour features and the text vectorizer:</p>
 
@@ -2323,7 +2264,7 @@ Confusion matrix
                 <span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2340,7 +2281,7 @@ Confusion matrix
                 <span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2356,14 +2297,13 @@ Confusion matrix
                       <span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The database is fairly big, therefore doing hyperparameter optimization on it is rather memory intensive (in my case 4 GB RAM was not enough). Therefore, we present a classification first with the default setups then do a cross validation with the optimized parameters from the previous section (although they are related to another database).</p>
 
@@ -2402,7 +2342,7 @@ Confusion matrix
 <span class="c1">#grid_search.cv_results_[&#39;mean_test_score&#39;]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2412,7 +2352,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2436,7 +2376,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2454,8 +2394,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Without refining the model we get an accuracy of 86.7%. False negatives are large for syrah and sauvignon blanc while false positives are large for pinot noir and chardonnay.</p>
 <p>Now we apply the optimized parameters obtained from the previous section in a cross validational sense. Hopefully it will improve the accuracy in all folds.</p>
@@ -2487,7 +2426,7 @@ Confusion matrix
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Standard deviation: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sc_mean</span><span class="p">))))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2497,7 +2436,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2521,7 +2460,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2536,7 +2475,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2560,7 +2499,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2575,7 +2514,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2599,7 +2538,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2614,7 +2553,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2629,8 +2568,7 @@ Standard deviation: 0.002036154102832595
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Indeed, all 3 folds gave better accuracy than the default settings. Since we have only 3 folds we use t-statistics to infere a 95% level confidence interval for the mean of the accuracy: 0.868632 - 0.878568. Without optimization, the accuracy was 0.867, therefore we would infere that it is probable that the used parameters helped to imporve the accuracy. However, they did not helped to decrease the false positives for chardonnay and pinot noir.</p>
 <p>We have to mention that the kaggle database has not been pre-processed as our own database therefore it may still contain things that causes false positives and negatives.</p>
@@ -2640,8 +2578,7 @@ Standard deviation: 0.002036154102832595
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch5"></a></p>
 <h1 id="5.-Cross-data-validation-of-the-model">5. Cross-data validation of the model<a class="anchor-link" href="#5.-Cross-data-validation-of-the-model">&#182;</a></h1>
@@ -2649,8 +2586,7 @@ Standard deviation: 0.002036154102832595
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Kaggle data will be trained, since it is much larger using the optimized input parameters, namely 1000 <em>n_estimators</em> and <em>log2 max_features</em>. To construct the pipeline we use the same steps as before.</p>
 
@@ -2667,7 +2603,7 @@ Standard deviation: 0.002036154102832595
 <span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;grape_variety&#39;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2685,7 +2621,7 @@ Standard deviation: 0.002036154102832595
                 <span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2702,7 +2638,7 @@ Standard deviation: 0.002036154102832595
                 <span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2718,7 +2654,7 @@ Standard deviation: 0.002036154102832595
                       <span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2737,7 +2673,7 @@ Standard deviation: 0.002036154102832595
 <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">kaggle_input</span><span class="p">[</span><span class="n">combined_features</span><span class="p">],</span> <span class="n">kaggle_input</span><span class="p">[</span><span class="n">target</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2747,7 +2683,7 @@ Standard deviation: 0.002036154102832595
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[61]:</div>
+    <div class="prompt output_prompt">Out[61]:</div>
 
 
 
@@ -2777,7 +2713,7 @@ Standard deviation: 0.002036154102832595
 <span class="n">print_stats</span><span class="p">(</span><span class="n">data_input</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> <span class="n">preds</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2787,7 +2723,7 @@ Standard deviation: 0.002036154102832595
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2811,7 +2747,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2829,8 +2765,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The accuracy out of sample has decreased to 72%. This is kind of expected. The train and test sets are coming from completely different sources and while the test set had some data cleaning the train dif not really. Besides these differences, the metrics are still quite good in the end.</p>
 
@@ -2838,8 +2773,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch5.1"></a></p>
 <h2 id="5.1-Classifying-more-target-features">5.1 Classifying more target features<a class="anchor-link" href="#5.1-Classifying-more-target-features">&#182;</a></h2>
@@ -2847,8 +2781,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Out of curiosity we will classify now more grape varieties only from the kaggle data set. We will subset the data set to contain single grape types which have more than 1000 samples.</p>
 
@@ -2864,7 +2797,7 @@ Confusion matrix
 <span class="n">single_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">kaggle</span><span class="o">.</span><span class="n">grape_variety</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2879,7 +2812,7 @@ Confusion matrix
 <span class="n">count</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2889,7 +2822,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[63]:</div>
+    <div class="prompt output_prompt">Out[63]:</div>
 
 
 
@@ -2924,8 +2857,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As you can see there are many blends in the list and wines that do not detail the grape name. We will filter them out so that we have clean names.</p>
 
@@ -2946,7 +2878,7 @@ Confusion matrix
 <span class="n">selected_grapes</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2956,7 +2888,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[65]:</div>
+    <div class="prompt output_prompt">Out[65]:</div>
 
 
 
@@ -2998,7 +2930,7 @@ Confusion matrix
 <span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">kaggle_input</span><span class="o">.</span><span class="n">grape_variety</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3008,7 +2940,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[66]:</div>
+    <div class="prompt output_prompt">Out[66]:</div>
 
 
 
@@ -3028,8 +2960,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We end up with 18 grape types. For a human that is a lot to keep in memory all of these type's characteristics and be able to identify them.</p>
 <p>Just as before, we construct a mapping between the grape type and its colour and complete the input with the colour of the wine.</p>
@@ -3055,14 +2986,13 @@ Confusion matrix
 <span class="n">kaggle_input</span> <span class="o">=</span> <span class="n">kaggle_input</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">colour_dummies</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We select the colours and description as the input features and the grape variety as the target feature. Then we split the data into train and test sets while keeping the occurance ratio the same in both sets.</p>
 
@@ -3082,14 +3012,13 @@ Confusion matrix
                                                     <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">kaggle_input</span><span class="p">[</span><span class="n">target</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Finally, we define the pipeline of feature selection, vectorization and classification, fit the train set and investigate the test set.</p>
 
@@ -3126,7 +3055,7 @@ Confusion matrix
 <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3139,7 +3068,7 @@ Confusion matrix
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3152,7 +3081,7 @@ Confusion matrix
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_stats</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3162,7 +3091,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3200,7 +3129,7 @@ Confusion matrix
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3218,8 +3147,7 @@ Confusion matrix
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It is quite remarkable that 18 grape types can be predicted from the description and colour of the wine with 70% accuracy. The precision is not performing well in general.</p>
 
@@ -3227,8 +3155,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch6"></a></p>
 <h1 id="6.-Conclusion">6. Conclusion<a class="anchor-link" href="#6.-Conclusion">&#182;</a></h1>
@@ -3236,8 +3163,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This study presented the construction of a classification model that is able to differentiate grape types based on the description of wine samples. After construction, the model is implemented on a smaller dataset that we collected, classification parameters are optimized and performance is improved. Because of the size of the dataset, we worked with only 4 grape types. Relying on the same principles we repeated the classification on a bigger data set and showed that the previously obtained optimized parameters are imporving the performance for this data set too. In both cases we managed to achieve a classification precision of above 85%. To show that this performance is not due to a mere luck and the choice of the data set, we performed a cross data set validation too, where the accuracy dropped to 72%. Finally, using the large data set, we predicted the grape types of 18 different grapes with an accuracy of 70% which is remarkable in terms of human measures.</p>
 
@@ -3245,8 +3171,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you have any question please feel free to contact me at <a href="diveki@gmail.com">diveki@gmail.com</a>. You can also fork this project from <a href="https://github.com/diveki/WineSommelier">my GitHub repository</a> or you can take a sneaky look at <a href="https://diveki.github.io">my GitHub Pages website</a>. I am going to publish these results on <a href="https://www.kaggle.com/diveki">my Kaggle page</a> to with some additional calculations.</p>
 <p>Just as a bonus, the preludes for this report can be found <a href="https://diveki.github.io/projects/wine/wine.html">here</a> and <a href="https://diveki.github.io/projects/wine/tfidf.html">here</a>.</p>
@@ -3255,8 +3180,7 @@ Confusion matrix
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch7"></a></p>
 <h1 id="7.-References">7. References<a class="anchor-link" href="#7.-References">&#182;</a></h1><ol>

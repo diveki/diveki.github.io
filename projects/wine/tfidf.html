@@ -99,16 +99,14 @@ Vector_model
            
 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Application-of-Tfidf-vectorizer-on-wine-data">Application of Tfidf-vectorizer on wine data<a class="anchor-link" href="#Application-of-Tfidf-vectorizer-on-wine-data">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><em>This study is the second prelude to a grape variety classifier based on semi-professional wine notes. We present a bag-of-words type analysis of data using term frequencies alone and inverse document frequency correction as well. We examine how applicable are these word vectorizers in order to differentiate between grape varieties.</em></p>
 
@@ -116,8 +114,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Analysing data and concepts is key to create a reliable classifier in machine learning. The style of the text input in our case can vary significantly, therefore it is unlikely that a classifier will do a perfect job. The analysis presented here helps to understand the deficiencies of the model and give us some hints, why was a wine description classified into one grape variety and not to the other.</p>
 <p>In the <a href="https://diveki.github.io/projects/wine/wine.html">first part</a> of the blind taster analysis we used brute force to collect data, reduce noise and extract term frequency information on the wine descriptions. Also we detailed where had our data come from and what preprocessing had we used to prepare it to analysis.</p>
@@ -128,8 +125,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In the begining of this study we review some <strong>Natural Language Processing</strong> (NLP) techniques and their meaning and then we apply those concept to our wine dataset and try to understand what are the similarities and differencies in the descriptions of the wines made from different grapes. Here we will cover the following topics:</p>
 <ol>
@@ -146,8 +142,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id='ch1'></a></p>
 <h1 id="1.-Bag-of-words-concept">1. Bag-of-words concept<a class="anchor-link" href="#1.-Bag-of-words-concept">&#182;</a></h1>
@@ -155,8 +150,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The bag-of-words concept is a very simple approach to text analysis in NLP. In its basic form it relies on the decomposition of text into words. From the union of all words, let us say N words, from all documents, M documents, under investigetion it forms a vector (refered to as vocabulary). Each document can be represented as a vector of this vocabulary with a length of <em>N</em>, resulting in a matrix of size $M\times N$. The figure below shows a detailed demonstration of this concept (taken from <a href="https://www.quora.com/What-is-the-bag-of-words-algorithm">Quora discussion</a>).</p>
 
@@ -164,8 +158,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://qph.fs.quoracdn.net/main-qimg-4934f0958e121d33717f848230ef664a" alt="Bag-of-words"></p>
 
@@ -173,8 +166,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The obtained matrix is usually very sparse, since only a small portion of the vocabulary is expected to appear in each document. Often, people apply stopwords. These are usually filling words which are very frequent in all documents, but does not have any descriptive meaning, like <em>for, is, of the, etc.</em> When applying the bag-of-word concept we leave out the stopwords from the analysis. The bag-of-words concept does not take into account the order of the words, therefore the causality and references between words are lost. This can be somewhat improved if one introduces N-grams.</p>
 <p>The figure above is a special case of N-grams, the 1-gram. The text is decomposed into individual words. In N-grams the text is decomposed into N consecutive term. For example, in the case of the above figure the first two 2-grams could be: <em>'quick brown', 'brown fox'</em> (note that we took into account the stopwords).</p>
@@ -183,8 +175,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The bag-of-words concept is usually paired with a document classifier where the decomposed terms are features. There are several types of classifiers but we will discuss the term frequency and term frequency with inverse document frequency methods.</p>
 <p>Before discussing these classifiers we first quickly review the concepts applied in the <a href="https://diveki.github.io/projects/wine/wine.html">previous study</a>.</p>
@@ -193,8 +184,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id='ch2'></a></p>
 <h1 id="2.-Reviewing-the-previous-Article-(tokenization,-filtering,-pos-tagging,-comparing)">2. Reviewing the previous Article (tokenization, filtering, pos tagging, comparing)<a class="anchor-link" href="#2.-Reviewing-the-previous-Article-(tokenization,-filtering,-pos-tagging,-comparing)">&#182;</a></h1>
@@ -202,8 +192,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let us start by importing python modules that we will use in the analysis.</p>
 
@@ -239,14 +228,13 @@ Vector_model
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Then we load the data that contains the scraped and pre-cleaned information about the wines. This data and the whole project can be found at my <a href="https://github.com/diveki/WineSommelier">github repository</a>. Feel free to take a copy of it and improve it. The data collection and processing is explained in the <a href="https://diveki.github.io/projects/wine/wine.html">previous study</a>.</p>
 <p>Just as before we are mainly interested in the <em>grape_variety</em> and <em>description</em> columns however real sommeliers can take a look at the colour of the wine, therefore the <em>colour</em> can be a featur too.</p>
@@ -265,7 +253,7 @@ Vector_model
 <span class="n">a0</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -275,7 +263,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
@@ -370,8 +358,7 @@ Vector_model
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In our analysis we will constrain filter out all the grape varieties that occurs less than a predifined <em>limit</em> in our dataset.</p>
 
@@ -391,14 +378,13 @@ Vector_model
 <span class="n">data_input</span> <span class="o">=</span> <span class="n">a0</span><span class="p">[</span><span class="n">a0</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">varieties</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We divide our dataset into train and test sets. 67% of the input will belong to the train and the rest to the test.</p>
 
@@ -418,14 +404,13 @@ Vector_model
                                                     <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The grape varieties in the train set are not equally represented. The white wines, the <em>chardonnay</em> and the <em>sauvignon blanc</em> have the most samples. Simply because of that feature we can already expect that some words will be more frequent in the white wine descriptions than in the red ones.</p>
 <p>Next we aggregate the wine descriptions by the grape variety. Therefore, we will have four documents (one for each grape) with long descriptions.</p>
@@ -445,7 +430,7 @@ Vector_model
 <span class="n">grouped</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -455,7 +440,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[5]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -514,8 +499,7 @@ Vector_model
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Using this dataset, in the <a href="https://diveki.github.io/projects/wine/wine.html">previous study</a> we applied the bag-of-words concept by aggregating the wine descriptions by grape varieties. We used the <em>nltk</em> package's <em>word_tokenize</em> method to obtain 1-gram terms. For each 1-gram we calculated their frequency within each grape variety.</p>
 <p>By visually inspecting these terms and the corresponding frequencies we saw that there are many useless filling words in the text, so we built up a filter, <em>stop_words</em>, that removed these terms.</p>
@@ -528,8 +512,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id='ch3'></a></p>
 <h1 id="3.-Term-frequency-and-the-count-vectorizer">3. Term frequency and the count vectorizer<a class="anchor-link" href="#3.-Term-frequency-and-the-count-vectorizer">&#182;</a></h1>
@@ -537,8 +520,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A simple and easy way to classify documents into topics is to decompose them into words and count their frequency of occurence. This number is basically the raw count form of term frequency. One assumes that if a word is more frequent in a topic than in another then that word is probably characteristic to that topic. There are other forms of term frequency depending on what weighing has been applied [<a href="#ch7">1</a>], like: boolean, logaritmic scaling etc. Also, one has to keep in mind that different documents can vary in length a lot that can influence the term frequency too.</p>
 <p>In python, the <a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html">CountVectorizer</a> is used to count the term frequency of a document. We will stick to the raw count form below. First we create a list of stopwords, that will be filtered out, from the union of the stopwords from <em>nltk</em> package and some additional words and characters that we know from experience that are not useful. Then we instantiate a <em>CountVectorizer</em> object. It will count 1-gram words. For a detailed description of the input arguments, check its description on the scikit-learn website.</p>
@@ -561,14 +543,13 @@ Vector_model
                             <span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that we have the counter object we can apply it on the wine descriptions to create a vocabulary with word counts for all words. Let us assume that the length of the vocabulary is <em>K</em>. Using the transform method we can turn the four documents into a $4\times K$ sparse matrix. Each number in the columns correspond to the frequency of a word in that row.</p>
 
@@ -586,7 +567,7 @@ Vector_model
 <span class="n">bag_of_words</span> <span class="o">=</span> <span class="n">count_vec</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">grouped</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;description&#39;</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -600,7 +581,7 @@ Vector_model
 <span class="n">bag_of_words</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -610,7 +591,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[8]:</div>
+    <div class="prompt output_prompt">Out[8]:</div>
 
 
 
@@ -629,8 +610,7 @@ Vector_model
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Basically in a couple of lines of code we obtained a lot of information about the documents we provided. Knowing to use these classifiers like <em>CountVectorizer</em> can save a lot of time when analysing and building a predictor model. In the <a href="https://diveki.github.io/projects/wine/wine.html">previous study</a> it took much more coding to get to this point. Furthermore, these objects are easy to modify and adjust, as we will see, therefore if we want to add further filtering or conditions it is easy to do.</p>
 <p>Let us first visually expect what are the most frequent words per grape varieties. For that we create a few helping function.</p>
@@ -676,7 +656,7 @@ Vector_model
                 <span class="n">col</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -693,7 +673,7 @@ Vector_model
 <span class="n">df_count</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -703,7 +683,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[10]:</div>
+    <div class="prompt output_prompt">Out[10]:</div>
 
 
 
@@ -788,7 +768,7 @@ Vector_model
 <span class="n">barplot_wordcounts</span><span class="p">(</span><span class="n">df_count</span><span class="p">,</span> <span class="n">grouped</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -798,7 +778,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -816,8 +796,7 @@ Vector_model
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>With these few lines of code we have already obtained some characteristic features of the different grapes. It is quite spectacular. Many of the tastes of wine, like <em>citrus, apple, gooseberry etc.</em>, do appear as most frequent words. As you can see many of the words appear in their plural form or ends on <em>-ed</em>. We can try to bring them into their basic form and reduce the number of items in the vocabulary. For that we need position tagging and lemmatization.</p>
 <p>When sommeliers describing a wine they mostly use nouns and adjectives. These type of words give the most characteristics for the wine. In our next analysis we will filter anything besides nouns and adjectives.</p>
@@ -890,14 +869,13 @@ Vector_model
         <span class="k">return</span> <span class="n">doc</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above we defined a <em>LemmaTokenizer</em> object that will help us to execute several things at once without writing a lot of code. This objects creates a <em>nltk WordNetLemmatizer</em> by instantiating it. The <em>CountVectorizer</em> object takes it as an argument and calles it. By calling the LemmaTokenizer it will perform the following steps on the input document:</p>
 <ol>
@@ -926,7 +904,7 @@ Vector_model
                             <span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -940,14 +918,13 @@ Vector_model
 <span class="n">bag_of_words</span> <span class="o">=</span> <span class="n">count_vec</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">grouped</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;description&#39;</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we instatiate the <em>CountVectorizer</em> again with a new argument, called <em>tokenizer</em> and apply the <em>fit</em> method on it with the text input. Then as before we transform it into a bag-of-words form. Now let us plot again what are the most frequent numbers for the different grape types.</p>
 
@@ -963,7 +940,7 @@ Vector_model
 <span class="n">df_count</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">df_count</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;grape&#39;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -976,7 +953,7 @@ Vector_model
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">barplot_wordcounts</span><span class="p">(</span><span class="n">df_count</span><span class="p">,</span> <span class="n">grouped</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -986,7 +963,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1004,8 +981,7 @@ Vector_model
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We managed to get rid of most of the plural nouns and increase the raw count of the corresponding singular words (see <em>cherry-cherries</em> at pinot noir). Also, there are basically no verbs and adverbs in the plot (the word <em>bodied</em> has disappeared from the figure). Besides these observations not much changed compared to the no lemmatizer version.</p>
 <p>We can also see that there are several words that are very frequent within and accross the grape types, like <em>grape, note, etc.</em> These words are not helping us to distinguish between the grape varieties. Obviously, one could come up with additional noise filters, but in the next section we will present a different approach which tries to measure and weigh the importance of words within and accross documents.</p>
@@ -1027,7 +1003,7 @@ Vector_model
 <span class="n">a</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">grouped</span><span class="o">.</span><span class="n">index</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1045,7 +1021,7 @@ Vector_model
             <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;YlGnBu&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1055,7 +1031,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[18]:</div>
+    <div class="prompt output_prompt">Out[18]:</div>
 
 
 
@@ -1068,7 +1044,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1086,8 +1062,7 @@ Vector_model
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We get mostly medium high correlation except between sauvignon blanc and the red wines. As one would expect the correlation is larger within the same colour than between cross colours. However the cross correlations still look a bit high. This is probably due to the many common words that occur in all (or almost all) grape types. These words could be <em>note, hint, month etc</em>. If we do not minimize the importance of these words, we risk the possibility that the classifier misidentifies the grape type based on the description more often than it should.</p>
 <p>We can try to compare this result with the results found in <a href="https://diveki.github.io/projects/wine/wine.html">Become a sommelier</a> section 5. There we searched for the common words for all grape types and calculated the correlation between them. We got even higher numbers there and in some cases cross colour correlations were the biggest (like between chardonnay and pinot noir). The reason for that as we will see later can be found in the number of vocabulary one uses to calculate the correlation. Here we used every word that is present in all of the documents while there we focused only on the common words. Common words obviosly give rise to correlation because they lack the presence of variety spesific description.</p>
@@ -1097,8 +1072,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch4"></a></p>
 <h1 id="4.-Inverse-document-frequency-and-the-Tf-idf-vectorizer">4. Inverse document frequency and the Tf-idf vectorizer<a class="anchor-link" href="#4.-Inverse-document-frequency-and-the-Tf-idf-vectorizer">&#182;</a></h1>
@@ -1106,8 +1080,7 @@ Vector_model
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Term frequency combined with inverse document frequency is a concept which says if a term is frequent within a document (like the words <em>the, is, are etc.</em>) give it a large weight, but if the very same term is frequent over many documents, then it is not characteristic to one description (to one category), therefore scale down its importance. This scaling factor is the inverse of the number of occurence of a term over several documents, namely inverse document frequency (<em>idf</em>). Therefore the matrix elements of the bag-of-words model will be $tf \times idf$ for each word. There are several modified forms of this expression, see [<a href="#ch7">1</a>].</p>
 <p>Scikit-learn uses <a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidfVectorizer</a> in python to achieve the above objective. The usage of this class is basically the same as the <em>CountVectorizer</em>'s. The default setup of this classifier performs normalization of the vectors too. One can choose the type of normalization.</p>
@@ -1125,7 +1098,7 @@ Vector_model
                             <span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1139,7 +1112,7 @@ Vector_model
 <span class="n">bag_of_words</span> <span class="o">=</span> <span class="n">tfid_vec</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">grouped</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;description&#39;</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1149,7 +1122,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -1173,7 +1146,7 @@ Vector_model
 <span class="n">df_tfidf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1183,7 +1156,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[21]:</div>
+    <div class="prompt output_prompt">Out[21]:</div>
 
 
 
@@ -1267,7 +1240,7 @@ Vector_model
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">barplot_wordcounts</span><span class="p">(</span><span class="n">df_tfidf</span><span class="p">,</span> <span class="n">grouped</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1277,7 +1250,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1295,8 +1268,7 @@ Vector_model
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Comparing this result with the one from the end of section 3 we find interesting observations. Only a few new words have appeared in the most important places, the rest got just reshuffled. Here, the words with describing taste and flavour are more emphasized than before. Basically, the words that are very characteristic to the given grape type got favoured and the filling and less descriptive words got pushed back. Go and compare the descriptions of these grape types given by Jancis Robinson (MW) with the characteristics given here [<a href="#ch7">2-6</a>]. The first word above in the barchart is basically almost the first word in Robinson's descriptions. It is amazing how easily can the tf-idf technique point out important words for a category.</p>
 <p>This highlights that we have a better chance to predict the type of the grape of a wine using the TfidfVectorizer than the CountVectorizer. That is what we will do in the <a href="https://diveki.github.io/projects/wine/sommelier.html">following study</a>.</p>
@@ -1318,7 +1290,7 @@ Vector_model
 <span class="n">word_idf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1328,7 +1300,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[23]:</div>
+    <div class="prompt output_prompt">Out[23]:</div>
 
 
 
@@ -1393,8 +1365,7 @@ Vector_model
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The vocabulary is stored in the <em>vocabulary_</em> parameter of the classifier, while the idfs are in the <em>idf_</em> parameter. By taking the unique values of the <em>idf</em> we will see there are only 4 of them.</p>
 
@@ -1410,7 +1381,7 @@ Vector_model
 <span class="n">idfs</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1420,7 +1391,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[24]:</div>
+    <div class="prompt output_prompt">Out[24]:</div>
 
 
 
@@ -1436,8 +1407,7 @@ Vector_model
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>According to the description on the scikit-learn website these numbers are calculated with the following expression: $idf(t)=\log(\frac{1+n_d}{1+df(d,t)}) + 1$, where $t$ is a term, $n_d$ is the number of different documents (in our case it is 4), and $df(d,t)$ is the number of documents that contain term $t$ (in our case it can range from 1 to 4).</p>
 <p>It is easy to see that $idf(t)=1$ corresponds to the case when each document contains that term. Those words are down scaled beacause it is thought that they do not contribute to the identification of the documents topic. When $idf(t)\approx 1.92$, only one document mentions the given term.</p>
@@ -1457,7 +1427,7 @@ Vector_model
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Ratio of words contained in 4 documents: </span><span class="si">%.3f</span><span class="s1"> pct&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">word_idf</span><span class="p">[</span><span class="n">word_idf</span><span class="p">[</span><span class="s1">&#39;idf&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">idfs</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">word_idf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span> <span class="c1"># number of words contained in 4 documents</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1467,7 +1437,7 @@ Vector_model
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1484,8 +1454,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Apparently, about one third of the words are mentioned only in one document while about 5% of them are common to every document. It is interesting to see that many of the most important words in the above graph can be found in all or several documents. This means that quite a few most important words are coming from less than 6% of the vocabulary. Moreover, from the 67% of that come from only one document, not many are making into the most important ones.</p>
 <p>Let us again compare the correlation between different grapes using this tf-idf corrected results.</p>
@@ -1504,7 +1473,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 <span class="n">atfidf</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1520,7 +1489,7 @@ Ratio of words contained in 4 documents: 5.498 pct
            <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;YlGnBu&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1530,7 +1499,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[32]:</div>
+    <div class="prompt output_prompt">Out[32]:</div>
 
 
 
@@ -1543,7 +1512,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1561,8 +1530,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Interestingly the correlations had lowered in general. This is good news, since 0 correlation (or no correlation) would mean that there is a big chance to differenciate these grape varieties without labelling one of them to the other. The same colour wines are still more correlated to each other than the different colours.</p>
 <p>This finding assures us that <em>TfidfVectorizer</em> could be a good choice to vectorize our text. We will use this method combined with a classifier to predict the grape type of unseen wine descriptions.</p>
@@ -1584,7 +1552,7 @@ Ratio of words contained in 4 documents: 5.498 pct
            <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;YlGnBu&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1594,7 +1562,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[33]:</div>
+    <div class="prompt output_prompt">Out[33]:</div>
 
 
 
@@ -1607,7 +1575,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1625,8 +1593,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We do not get exactly the same numbers because we use <em>TfidfVectorizer</em> here instead of the <em>CountVectorizer</em>. Nevertheless, the results are quite close to each other. This is an other example that using only a portion of the vocabulary is not enough to separate the grape types. Also a good example that relying on scikit-learn's objects are leading to less code and faster results.</p>
 <p>In the next section, we apply the above learned knowledge to one grape variety and analyse how correlated the descriptions are to each other.</p>
@@ -1635,8 +1602,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch5"></a></p>
 <h1 id="5.-Similarity-study-of-documents-belonging-to-one-class">5. Similarity study of documents belonging to one class<a class="anchor-link" href="#5.-Similarity-study-of-documents-belonging-to-one-class">&#182;</a></h1>
@@ -1644,8 +1610,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We choose the red wine grape syrah as an example to work with in the following</p>
 
@@ -1661,7 +1626,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 <span class="n">syrah</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1671,7 +1636,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[56]:</div>
+    <div class="prompt output_prompt">Out[56]:</div>
 
 
 
@@ -1736,8 +1701,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In our database this grape does not have a lot of documents to work with, so it will be easy to visualize the results. We simply apply the procedure learnt in <a href="#ch4">section 4</a>, but instead of having 4 different grape type description as the input, we have several documents belonging to one grape type.</p>
 
@@ -1753,7 +1717,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 <span class="n">bag_of_words</span> <span class="o">=</span> <span class="n">tfid_vec</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">syrah</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;description&#39;</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1763,7 +1727,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -1778,8 +1742,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>First we take a look at the size of our vocabulary (the number of terms we are looking at). We also print the number of documents available for the syrah grape.</p>
 
@@ -1795,7 +1758,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Number of documents:  </span><span class="si">{bag_of_words.shape[0]}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1805,7 +1768,7 @@ Ratio of words contained in 4 documents: 5.498 pct
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1820,8 +1783,7 @@ Number of documents:  27
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>From the 27 documents that we preprocessed we have 355 words to work with. In principle these words contain the ones that are characteristic to this grape type. It would be interesting to look at how correlated are these description with each other. Are they really mentioning the same words in the same way in each document?</p>
 
@@ -1844,7 +1806,7 @@ Number of documents:  27
            <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;YlGnBu&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1854,7 +1816,7 @@ Number of documents:  27
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[59]:</div>
+    <div class="prompt output_prompt">Out[59]:</div>
 
 
 
@@ -1867,7 +1829,7 @@ Number of documents:  27
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1885,8 +1847,7 @@ Number of documents:  27
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The range of the heatmap goes from -1 to 1. The diagonal shows the correlation of a document with itself, therefore its value is 1. There are 2 more dots (symmetrically located) that have a value of 1. It means that documents 1 and 13 are identical. This highlights a weakness in our preprocessing. We should not allow duplicated documents. In a supervised classification, duplication may put more weight on certain features (words). Documents 26 and 19 have a high correlation value too (but not equal to 1). These two might share a lot of common words. Let us look at them.</p>
 
@@ -1901,7 +1862,7 @@ Number of documents:  27
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">syrah</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">19</span><span class="p">,</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1911,7 +1872,7 @@ Number of documents:  27
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[62]:</div>
+    <div class="prompt output_prompt">Out[62]:</div>
 
 
 
@@ -1934,7 +1895,7 @@ Number of documents:  27
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">syrah</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">26</span><span class="p">,</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1944,7 +1905,7 @@ Number of documents:  27
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[61]:</div>
+    <div class="prompt output_prompt">Out[61]:</div>
 
 
 
@@ -1960,8 +1921,7 @@ Number of documents:  27
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It turns out that their description is almost identical. There are only a few differences. That explains why is the correlation so high.</p>
 <p>The rest of the correlations are quite low, close to 0. This is good news. It means that the descriptions of each documents are not much similar to each other, they are constructed in different ways probably using many different words too. Still, when putting these descriptions into one basket they form a language very characteristic to that grape type.</p>
@@ -1970,8 +1930,7 @@ Number of documents:  27
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch6"></a></p>
 <h1 id="6.-Conclusion">6. Conclusion<a class="anchor-link" href="#6.-Conclusion">&#182;</a></h1><p>In this report we presented classes and methods to perform text analysis to derive characteristic features of grape varieties from semi-professional wine descriptions.</p>
@@ -1993,8 +1952,7 @@ Number of documents:  27
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="ch7"></a></p>
 <h1 id="7.-References">7. References<a class="anchor-link" href="#7.-References">&#182;</a></h1><ol>

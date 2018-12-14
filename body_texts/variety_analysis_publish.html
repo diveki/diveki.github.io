@@ -1,15 +1,13 @@
 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Become-a-sommelier">Become a sommelier<a class="anchor-link" href="#Become-a-sommelier">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><em>A simple application of how data mining and simple supervised machine learning techniques can be applied to create a simple but still powerful code to guess the grape variety of which a bottle of wine was made from. In this report we go through the description of wines from different grapes and try to understand what are the similarities and differencies between wines.</em></p>
 
@@ -17,8 +15,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Have you ever wondered who writes the description on the wine label sold in supermarkets? If done by experts, they are called sommeliers. They are professional wine experts with wide range of knowledge about wine service and pairing it with food. The PhD of this profession is called <a href="https://en.wikipedia.org/wiki/Master_of_Wine">Master of Wine</a> (MW). It many takes years of practice to obtain this degree. One of the hardest thing is to master blind tasting.</p>
 <p>Blind tasting is when a person is served a glass of wine (or other alcohol) and his task is to describe its characteristics, like color, body, acidity, taste, smell etc. Depending on the difficulty of the tasting the person might be further requested to guess the grape variety, vintage, country of origin etc. of that wine based on the features he just described.</p>
@@ -29,8 +26,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This report is the first part of a project that intends to create a program that is capable of predicting what grape variety was used to create the examined wine based on a given semi-professional characterization. This first part will analyse the data and highlight the characteristics of grape varieties using simple <strong>Natural Language Processing</strong> (NLP) techniques using the <strong>nltk</strong> package, while the second part will do the actuall model building, training and predicting. Here we will cover the following topics:</p>
 <ol>
@@ -52,16 +48,14 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Understanding-the-data-at-hand">1. Understanding the data at hand<a class="anchor-link" href="#1.-Understanding-the-data-at-hand">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To build a robust system that determines the grape variety based on a description one needs good quality data. Probably the most well known wine related database between the machinel learning community is the <a href="https://archive.ics.uci.edu/ml/datasets/wine">Wine Data Set</a> from the <strong>UCI Machine Learning Repository</strong>. Although, it contains a wide range of information it is irrelevant for us, since does not give description about the wine. <a href="https://www.wine-searcher.com/">Wine-searcher</a> could be a good choice especially since it has an API to its database, but many of its services are not free. Some others like <a href="https://lcboapi.com/">LCBO API</a> and <a href="https://www.globalwinescore.com/">Global Wine Score</a> have the same problems.</p>
 <p>Finally if one wants to work with a special database as we do, which contains name of the wine, the producer, country of origin, alcohol level, color, the grape varieties used to make it and at least a half professional tasting description, one has to go out and scrape the web. Possible sources are <a href="https://www.winemag.com/">Wine Enthusiast</a>, <a href="https://www.bibendum-wine.co.uk/">Bibendum</a>, <a href="https://www.majestic.co.uk/">Majestic Wine</a> etc. None of them are perferct or contain all the information we need for all wines, but most of the times they give description and grape variety which is our two most wanted information.</p>
@@ -72,8 +66,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To start to examine the data at hand we start importing useful packages into Python. This project relies on <em>Python 3</em>. In this report we havily rely on the following three categories of packages:</p>
 <ol>
@@ -113,14 +106,13 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Then we load the data that contains the scraped and pre-cleaned information (see Appendix) about the wines. Below we can see how does the whole data look like. In this report we are mainly interested in the <em>grape_variety</em> and <em>description</em> columns.</p>
 
@@ -138,7 +130,7 @@
 <span class="n">a0</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -148,7 +140,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
@@ -243,8 +235,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In machine learning precision of prediction can be increased by obtaining a big chunk of good quality data. In this data set, none of the grapes has thousands of samples, therefore we have to make a compromise. The <em>varieties</em> variable serves to filter out grapes that do not have more samples than <em>limit</em>.</p>
 
@@ -264,14 +255,13 @@
 <span class="n">data_input</span> <span class="o">=</span> <span class="n">a0</span><span class="p">[</span><span class="n">a0</span><span class="p">[</span><span class="s1">&#39;grape_variety&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">varieties</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We will use 67% of the data to analyse the descriptions of wines. This will be used as a train set in the follow up report. Then we visualize how many samples are there from each grape variety.</p>
 
@@ -291,7 +281,7 @@
                                                     <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -310,7 +300,7 @@
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -320,7 +310,7 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -338,8 +328,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The grape varieties in the train set are not equally represented. The white wines, the <em>chardonnay</em> and the <em>sauvignon blanc</em> have the most samples. Simply because of that feature we can already expect that some words will be more frequent in the white wine descriptions than in the red ones.</p>
 <p>To start our analysis, we aggregate all the descriptions into one place by grape varieties. During the aggregation process we use double <em>lambda</em> functions: the first to extract the descriptions belonging the a grape variety (described by <em>z</em>) and the second applies the <em>reduce</em> function that in this case takes the consecutive elements of <em>z</em> and joins (adds) them together.</p>
@@ -359,7 +348,7 @@
 <span class="n">grouped</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -369,7 +358,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[6]:</div>
+    <div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -428,8 +417,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Word-tokenization">2. Word tokenization<a class="anchor-link" href="#2.-Word-tokenization">&#182;</a></h1><p>A lousy definition of tokenization could be: given a character sequence, tokenization is the task of chopping it up into pieces, called tokens and probably throwing away certain characters, such as punctuation [1]. In our case it means we retrieve each individual word one-by-one in the description column and store them as a list of words under the column <em>token</em>. This way we will be able to compare the words used in each grape variety. One could write a fancy function to do this job, but the <em>nltk</em> package contains already a nice function for it, called <em>word_tokenize</em>.</p>
 
@@ -445,14 +433,13 @@
 <span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;tokens&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;description&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We write a function that counts how many times has a word occured in a grape variety and creates a new dataframe with the name of the grape, the word (token) that was used for the grapes description, the number of times that token has occured and finally we also rank which tokens were the most frequent ones.</p>
 
@@ -476,7 +463,7 @@
 <span class="n">tkn_count</span> <span class="o">=</span> <span class="n">word_count_df</span><span class="p">(</span><span class="n">grouped</span><span class="p">,</span> <span class="s1">&#39;tokens&#39;</span><span class="p">,</span> <span class="n">out_col</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grape&#39;</span><span class="p">,</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -489,14 +476,13 @@
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tkn_count</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">tkn_count</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;grape&#39;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To have an initial idea what words are the most frequent to each wine we plot these words. White wines are represented by greenish color while the red ones with redish color.</p>
 
@@ -535,7 +521,7 @@
 <span class="n">barplot_wordcounts</span><span class="p">(</span><span class="n">tkn_count</span><span class="p">,</span> <span class="n">grouped</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -545,7 +531,7 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -563,8 +549,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As we can see the most frequent 15 words are basically filling words or some kind of punctuations. Except for the word 'citrus' (sauvignon blanc) and 'red' (pinot noir) there are no other words in the plot that may give us a clue about the variety of the grape. Therefore it makes sense to filter the text from these filling words that make noise in the text and does not help to determine the variety of the grape.</p>
 
@@ -572,16 +557,14 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Filtering-noise">3. Filtering noise<a class="anchor-link" href="#3.-Filtering-noise">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In the first round we will apply a simple non alphabetic character remover to get rid of words with length of 1 and 2 characters, full stops, commas, numbers, etc. Then we apply a stopword filter from the nltk.stopwords package appended by some additional words that do not contain any usefool information about the variety of grapes like the word 'wine' and some more. These words appear above as some of the most frequent words to describe a wine.</p>
 
@@ -611,7 +594,7 @@
 <span class="n">tkn_filt1</span> <span class="o">=</span> <span class="n">tkn_filt1</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;level_0&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -624,7 +607,7 @@
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">barplot_wordcounts</span><span class="p">(</span><span class="n">tkn_filt1</span><span class="p">,</span> <span class="n">grouped</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -634,7 +617,7 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -652,8 +635,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>After filtering, some of the taste and smell characteristics start to apppear in the most frequent words. These words differentiate the varieties. There are still some words that do not bear any information about the difference between the grapes, but for the moment we leave them in.</p>
 
@@ -661,16 +643,14 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="4.-Part-of-Speech-(POS)-tagging-and-Lemmatization">4. Part of Speech (POS) tagging and Lemmatization<a class="anchor-link" href="#4.-Part-of-Speech-(POS)-tagging-and-Lemmatization">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The filtering step allows us to remove some basic noise from the collection of words but the remaining collection of words is still not clean enough. Particularly, some words may appear in different forms while actually having the same meaning. For example, in the case of pinot noir we can see the words cherry and cherries. They are the same but the former is singular noun while the latter is plural noun. To resolve this phenomena we can apply lemmatization. This process tries to group words into their common form. For that we use the <em>WordNetLemmatizer</em> from <em>nltk</em>. As an input it takes a string that tells the lemmatizer if the second argument, the token is a noun, verb, adjective or adverb. Therefore, first we write a few helper function that will help us to make this decision.</p>
 <p>First we prepare the tokens to be able to lemmatize. We apply <em>nltk</em>'s <strong>part of speech (POS)</strong> tagger [2]. This is one of the most important steps of NLPs. POS tagging will decide to which word class (noun, verb, etc.) a token belongs to based on a relationship to adjacent and related words. The POS tagger requires a list of tokens as an input and creates a list as an output with elements of tuples, where the first item is the token and the second is a tag (e.g. <em>VB</em> referring to verb).</p>
@@ -709,7 +689,7 @@
     
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -726,14 +706,13 @@
 <span class="n">tkn_filt1</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lems</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>After finding the lemmas we reduced the number of individual verbs present in the tokens, like there are no <em>cherries</em> in the <em>pinot noir</em>, they have been turned into cherry, increasing the number of its counts. Some of the characteristics of each grape variety starts to appear, like an aged chardonnay is kept in an <em>oak barrel</em> and bears <em>citrus</em> like tastes. <em>Pinot</em> has often <em>cherry, spicy, raspberry</em> falvors that do appear in its most frequented words.</p>
 
@@ -748,7 +727,7 @@
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tkn_filt1</span> <span class="o">=</span> <span class="n">tkn_filt1</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;grape&#39;</span><span class="p">,</span> <span class="s1">&#39;token&#39;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -762,7 +741,7 @@
 <span class="n">barplot_wordcounts</span><span class="p">(</span><span class="n">tkn_filt1</span><span class="p">,</span> <span class="n">grouped</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -772,7 +751,7 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -790,8 +769,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>However there are still many words that do not give any hint about which grape variety was used for a wine. The words <em>grape, note, style</em> etc. does not add any feature to the description of the grape. One way to solve this problem would be to look up manually all these words and filter them out, but on one hand this would be very tedious job and on the other we could expect that our model becomes overfitted.</p>
 <p>Instead a better approach would be a kind of entity chunking [3,4]. This is a complex procedure where based on linguistic knowledge one tries to extract information from the text. For example, one could build a model that finds the features in the text that belong to different predifined categories, like taste, palate, acidity etc. For now, we will not implement this technique.</p>
@@ -801,8 +779,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="5.-Comparison">5. Comparison<a class="anchor-link" href="#5.-Comparison">&#182;</a></h1><p>To identify what makes our different grape varieties unique in terms of description of the wine we decompose our tokens into common words to all grape types and disjoint words, which can be only found in one of the grape descriptions.</p>
 <h2 id="Common-words">Common words<a class="anchor-link" href="#Common-words">&#182;</a></h2><p>As we could see from the plot of most frequent words per grape varieties there are overlap between the grapes. Finding common words can be a way of finding words that are not giving much information about the individual grape types. Although, we have to keep in mind 2 things: a) usually they are not equally distributed between the grapes, b) being a common word to all grapes does not directly mean that it has no feature behavoir to one of the grapes. We will see examples for the latter case later. Also note, that analysing the common words neglects all the words that are not found in the description of all of the grape types. After finding the common words we take a look at the correlation of their frequency between the grape types.</p>
@@ -827,7 +804,7 @@
 <span class="n">df_final</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">),</span> <span class="n">dfs</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -844,7 +821,7 @@
 <span class="n">df_common</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>      <span class="c1"># calculate the correlation</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -854,7 +831,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[18]:</div>
+    <div class="prompt output_prompt">Out[18]:</div>
 
 
 
@@ -924,8 +901,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The idea behind the correlation of common words is the following. If the frequency of a word is roughly the same for each grape type it means that word is probably just a filling word, not giving much information of any of the grapes. This scenario increases the correlation. If the frequencies are different, especially if it is very large for one of the grapes and small for the others that means, that word is probably a feature of one of the grapes and this would decrease the overall correlation. This whole argument is based on the assumption that each grape has the same amount of description sample with roughly the same number of tokens in it. But we know that this assumption is not true.</p>
 <p>Chardonnay has the largest sample size and the most tokens, it is understandable that it has large correlation with the other grape types. Chardonnay and Pinot Noir are used together to make champagne, in France both of them are usually oaked and also usually cultivated in the same wine region with similar teroir [5], therefor the correlation increases between them. Chardonnay is usually medium to full budied and has different tastes and flavors than Sauvignon Blanc which is often light budied and gives a feeling of freshness [6]. This might explain the lower level of correlation between them. Chardonnay and Syrah are both called big wines with deeper colors that is why Syrah is more correlated to Chardonnay than to Pinot Noir, which is lighter in color and easy to drink wine [7].</p>
@@ -935,8 +911,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let us now look at which words are the most frequent for all the grape types between all the common words. We cannot simply just add up the number of occurences of a word for each grape because the range of the occurances between grapes are not on the same scale, due to the fact that the sample sizes of the grape descriptions are different. Therefore, first we normalize the counts of word occurences within each grape variety using the <em>MinMaxScaler</em> of <em>sklearn</em> that outputs numbers between 0 and 1. One could use other scalers (like the normal scaler) but this one does not assume a distribution of samples, plus the outputs are non negative numbers helping us to do further analysis. Then we add up the normalized values (represented by the freq column) and sort them to see which words are the most frequent ones.</p>
 
@@ -960,7 +935,7 @@
 <span class="n">df_norm</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ind</span><span class="p">[:</span><span class="mi">10</span><span class="p">],</span> <span class="p">]</span>  <span class="c1"># visualize the 10 most frequent word within grape verieties</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -970,7 +945,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[19]:</div>
+    <div class="prompt output_prompt">Out[19]:</div>
 
 
 
@@ -1104,8 +1079,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Not surprisingly the word <em>grape</em> is the most common between all grape types. In the first ten occurances there are words like <em>note</em>, <em>grape</em> and <em>made</em> which are probably just noise words not giving any additional information about the grape types.</p>
 <p>But by carefully looking at the scores, we can see that for example the word <em>oak</em> is important for the Pinot Noir, Chardonnay and Syrah, but not for the Sauvignon Blanc. Also the word <em>complex</em> is rather characteristic for Syrah but not much for Pinot Noir and Chardonnay and especially not for Sauvignon Blanc.</p>
@@ -1146,7 +1120,7 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_ylabel</span><span class="p">(),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fsize</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1156,7 +1130,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[20]:</div>
+    <div class="prompt output_prompt">Out[20]:</div>
 
 
 
@@ -1169,7 +1143,7 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1187,8 +1161,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In the above figure we plot 15 most frequent words with the most frequent one being at the top. The words like <em>finish, hint, made</em> and <em>new</em> are roughly equally important for each wine. These words will not add information about the grape variety. However, the words <em>oak, rich, spice</em> and <em>complex</em> has negligible meaning for the Sauvignon Blanc, while the word <em>complex</em> seems to be really descriptive for the Syrah. <em>Spice</em> is important for the Pinot Noir and Syrah and less important for the two white grapes. This means that when training a predicting model this word can be confusing and may contribute to the mixing up of these to grapes when predicting their grape type.</p>
 
@@ -1196,16 +1169,14 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Disjoint-words">Disjoint words<a class="anchor-link" href="#Disjoint-words">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we turn to the words that are unique to each grape type. We expect to find some very characteristic features that may be unique for the grape type in question.</p>
 
@@ -1227,7 +1198,7 @@
     <span class="n">df_unique</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_unique</span><span class="p">,</span> <span class="n">tmp</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1242,7 +1213,7 @@
 <span class="n">barplot_wordcounts</span><span class="p">(</span><span class="n">df_unique</span><span class="p">,</span> <span class="n">varieties</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1252,7 +1223,7 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1270,8 +1241,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Finally, we can see some true grape characteristics. However we have to keep in mind that these words are not necesarrily the best describers. It can happen that the best feature of a grape also appears (maybe rarely) in another one and our procedure has filtered it out, since we are showing only the common and disjoint (but not partially disjoint) features.</p>
 <p>Buttery aromas and toasty flavors are indeed characteristic to Chardonnay [9]. Look at Sauvignon Blanc's <em>gooseberry</em> count. That taste is indeed very frequent to that grape [10]. Just as <em>grass</em> and <em>passion fruit</em>.</p>
@@ -1291,7 +1261,7 @@
 <span class="n">df_unique</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span> <span class="s1">&#39;pos&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()[[</span><span class="s1">&#39;count&#39;</span><span class="p">]]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1301,7 +1271,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[23]:</div>
+    <div class="prompt output_prompt">Out[23]:</div>
 
 
 
@@ -1360,8 +1330,7 @@
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Indeed, nouns are far more numerous than any other category. Nouns and adjectives together give more than two thirds of the words. We could replot the most important words after filtering for nouns and adjectives, but the outcome would be the same. This is a bit surprising since the word <em>creates</em> is probably a verb but it was tagged to be a noun. This shows the weakness of a simple POS tagging. This gives room for improvement on this project.</p>
 
@@ -1369,8 +1338,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="6.-Conclusion">6. Conclusion<a class="anchor-link" href="#6.-Conclusion">&#182;</a></h1><p>In this report we presented a simple Natural Language Processing approach based on word analysis to derive characteristic features of grape varieties from semi-professional wine descriptions.</p>
 <p>It was possible to show that although the descriptions were not well structured and contained a lot of irrelevant information with respect to the grape varieties we could extract grape characteristic nouns and adjectives. We showed that there are many common words used for each grape variety, but one can also find important words that belong to only one grape. These findings help to understand the background of the decisions made by a grape variety forecaster. Such kind of forecaster will be presented in the <a href="https://diveki.github.io/projects/sommelier.html">next report</a>.</p>
@@ -1390,8 +1358,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="7.-Appendix:-Getting-the-data">7. Appendix: Getting the data<a class="anchor-link" href="#7.-Appendix:-Getting-the-data">&#182;</a></h1><h2 id="Scraping">Scraping<a class="anchor-link" href="#Scraping">&#182;</a></h2><p>We were using the <em>Bibendum</em> and <em>Majestic Wine</em> websites to extract relevant information. You can find the two python codes <a href="https://github.com/diveki/WineSommelier/tree/master/Scraping">here</a>. Unfortunately, there is a great chance that the <em>webScraping.py</em> code will fail since Bibendum has re-structered its website after we have completed the scraping code.</p>
 <p>The codes heavily rely on the <em>requests, Beautiful Soup</em> and <em>re</em> python packeges. The code loops through each page on the website that contains the list of wines and saves down their name and the link they point to into a wine class. The wine class is initialized by the name of the wine and its link. This class has methods to retrieve the description text about the wine and any other interesting detail about the wine, like name of producer, country, alcohol level, grape variety, body etc. Unfortunately these additional information are not present in all wines. Therefore we step through on each of them and fill the missing information with NAs. Finally the data is saved to the disk in .xlsx format. The combined data from Bibendum and Majestic Wine (at July 2018) builds upt to a total of 2366 items.</p>
@@ -1412,8 +1379,7 @@
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="8.-References">8. References<a class="anchor-link" href="#8.-References">&#182;</a></h1><ol>
 <li><a href="https://nlp.stanford.edu/IR-book/html/htmledition/tokenization-1.html">https://nlp.stanford.edu/IR-book/html/htmledition/tokenization-1.html</a></li>
@@ -1430,6 +1396,19 @@
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
  
 
